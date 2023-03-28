@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router";
 import { set_estado, set_fecha_fin, set_fecha_inicio } from "../gestion/Gestion";
 import { urlReporte } from "../home/Home";
 import { getId } from "../login/Login";
-import { baseUrl } from "../main";
+import { baseUrl, baseUrlReports } from "../main";
 export function cerrarPeriodo(id: number) {
   return new Promise((resolve, reject) => {
     const token = localStorage.getItem("token");
@@ -387,7 +387,7 @@ export default function () {
               async () => {
                 const idU = await getId();
                 /* Abrir nueva ventana */
-                window.open(urlReporte({ valores: { IdEmpresa: id as string, IdGestion: gestion_id as string, IdUsuario: idU }, urlBase: "http://localhost:8089/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fperiodo_report&standAlone=true" }), '_blank');
+                window.open(urlReporte({ valores: { IdEmpresa: id as string, IdGestion: gestion_id as string, IdUsuario: idU }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fperiodo_report&standAlone=true` }), '_blank');
               }
             }
           >Reporte Periodos</button>

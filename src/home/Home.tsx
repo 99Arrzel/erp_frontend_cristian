@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, Router } from 'react-router-dom';
 import { Dialog } from 'primereact/dialog';
 import { useFormik } from "formik";
-import { baseUrl } from '../main';
+import { baseUrl, baseUrlReports } from '../main';
 import { Toast } from 'primereact/toast';
 import { getId } from '../login/Login';
 
@@ -259,7 +259,7 @@ export default function Home() {
                   async () => {
                     const id = await getId();
                     /* Abrir nueva ventana */
-                    window.open(urlReporte({ valores: { idUsuario: id }, urlBase: "http://localhost:8089/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fempresa_report&standAlone=true" }), '_blank');
+                    window.open(urlReporte({ valores: { idUsuario: id }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fempresa_report&standAlone=true` }), '_blank');
                   }
                 }
               >Reporte Empresas</button>

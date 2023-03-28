@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { urlReporte } from '../home/Home';
 import { getId } from '../login/Login';
-import { baseUrl } from '../main';
+import { baseUrl, baseUrlReports } from '../main';
 import TreeMaker from './TreeMaker';
 
 export function deleteCuenta(id: number) {
@@ -231,7 +231,7 @@ export default function () {
               async () => {
                 const idU = await getId();
                 /* Abrir nueva ventana */
-                window.open(urlReporte({ valores: { idEmpresa: id as string, idUsuario: idU }, urlBase: "http://localhost:8089/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fcuenta_report&standAlone=true" }), '_blank');
+                window.open(urlReporte({ valores: { idEmpresa: id as string, idUsuario: idU }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fcuenta_report&standAlone=true` }), '_blank');
               }
             }
           >Reporte Cuentas</button>

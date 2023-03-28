@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Column } from "primereact/column";
 import { Dialog } from "primereact/dialog";
 import { useFormik } from "formik";
-import { baseUrl } from "../main";
+import { baseUrl, baseUrlReports } from "../main";
 import { Toast } from 'primereact/toast';
 import { getId } from "../login/Login";
 import { urlReporte } from "../home/Home";
@@ -334,7 +334,7 @@ export default function () {
               async () => {
                 const idU = await getId();
                 /* Abrir nueva ventana */
-                window.open(urlReporte({ valores: { idEmpresa: id, idUsuario: idU }, urlBase: "http://localhost:8089/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fgestion_report&standAlone=true" }), '_blank');
+                window.open(urlReporte({ valores: { idEmpresa: id, idUsuario: idU }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fgestion_report&standAlone=true` }), '_blank');
               }
             }
           >Reporte Gestiones</button>
