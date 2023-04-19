@@ -75,10 +75,28 @@ export default function Menu() {
         navigate(`/empresa/${id}/gestiones`);
       }
     }, {
-      label: 'Plan de cuentas',
-      command: () => {
-        navigate(`/empresa/${id}/plan_cuentas`);
-      }
+
+      label: "Contabilidad",
+      items: [{
+
+        label: 'Plan de cuentas',
+        command: () => {
+          navigate(`/empresa/${id}/plan_cuentas`);
+        }
+      }, {
+        label: 'Comprobantes',
+        command: () => {
+          navigate(`/empresa/${id}/comprobantes`);
+        }
+      }]
+    }, {
+      label: 'Configuración',
+      items: [{
+        label: 'Monedas',
+        command: () => {
+          navigate(`/empresa/${id}/configuracion/monedas`);
+        }
+      }]
     }
 
   ];

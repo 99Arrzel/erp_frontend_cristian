@@ -16,7 +16,7 @@ interface Value {
 export default function TreeMaker(values: Value[], parentId: string | null = null): Data[] {
   const filteredValues = values.filter(value => value.padre_id === parentId);
   return filteredValues.map(value => {
-    const children = TreeMaker(values, value.id);
+    const children = TreeMaker(values, value.id); //Acá, esto puede devolver un [] (array vacío)
     return {
       key: value.id,
       data: value,

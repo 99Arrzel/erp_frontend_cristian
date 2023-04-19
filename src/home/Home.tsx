@@ -8,6 +8,17 @@ import { Toast } from 'primereact/toast';
 import { getId } from '../login/Login';
 
 
+export async function fetchMonedas() {
+  let data = await fetch(`${baseUrl}/api/monedas/todas`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then((res) => res.json());
+  return data;
+}
+
 export async function fetchEmpresas() {
   let data = await fetch(`${baseUrl}/api/empresas/listar`, {
     method: "GET",
@@ -36,14 +47,20 @@ export default function Home() {
   const toast = useRef<Toast>(null);
   /* Fetch  */
   const [empresas, setEmpresas] = useState([]);
-  const [selectedEmpresa, setSelectedEmpresa] = useState(null);
+  const [selectedEmpresa, setSelectedEmpresa] = useState<any>(null);
   const onEmpresaChange = (e: any) => {
     console.log(e.value);
     setSelectedEmpresa(e.value);
   };
+  const [monedas, setMonedas] = useState([]);
   useEffect(() => {
     fetchEmpresas().then((data) => {
+      console.log(data, "Empresas");
       setEmpresas(data);
+    });
+    fetchMonedas().then((data) => {
+      console.log(data, "Monedas");
+      setMonedas(data);
     });
   }, []);
   const [displayHeader, setDisplayHeader] = useState("Crear Empresa");
@@ -59,11 +76,17 @@ export default function Home() {
       correo: "",
       direccion: "",
       niveles: 3,
+      moneda_id: "" as number | string
     },
     onSubmit: async (values) => {
+      console.log("valores", values);
       let errors: { [key: string]: string; } = {};
       if (values.correo.trim().length > 0 && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.correo)) {
         errors.correo = "Correo requerido";
+      }
+      if (values.moneda_id == "" || values.moneda_id == null) {
+
+        errors.moneda = "Moneda requerida";
       }
       if (!values.nombre.trim()) {
         errors.nombre = "Nombre requerido";
@@ -167,15 +190,26 @@ export default function Home() {
               <label htmlFor="nombre">Nombre<a className='text-red-500'>{formik.errors.nombre}</a></label>
               <input type="text" name="nombre" id="nombre" className="w-full p-2 border border-gray-300 rounded-md" onChange={formik.handleChange} value={formik.values.nombre} />
             </div>
-            <div>
-              <label htmlFor="niveles">Niveles</label>
-              <select name="niveles" id="niveles" className="w-full p-2 border border-gray-300 rounded-md" onChange={formik.handleChange} value={formik.values.niveles}>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                < option value="6">6</option>
-                <option value="7">7</option>
-              </select>
+            <div className='flex gap-2'>
+              <div className='w-full'>
+                <label htmlFor="niveles">Niveles</label>
+                <select name="niveles" id="niveles" className="w-full p-2 border border-gray-300 rounded-md" onChange={formik.handleChange} value={formik.values.niveles}>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  < option value="6">6</option>
+                  <option value="7">7</option>
+                </select>
+              </div>
+              <div className='w-full'>
+                <label htmlFor="niveles">Moneda</label>
+                <select name="moneda_id" id="moneda_id"
+                  disabled={(selectedEmpresa?.empresa_monedas && selectedEmpresa?.empresa_monedas.length > 1)}
+                  className="w-full p-2 border border-gray-300 rounded-md" onChange={formik.handleChange} value={formik.values.moneda_id}>
+                  <option value="" >Selecciona</option>
+                  {monedas.map(({ id, nombre }, index) => <option key={index} value={id} >{nombre}</option>)}
+                </select>
+              </div>
             </div>
             <div>
               <label htmlFor="nit">NIT<a className='text-red-500'>{formik.errors.nit}</a></label>
@@ -244,6 +278,7 @@ export default function Home() {
                     setVisDialog(true);
                     setDisplayHeader("Editar Empresa");
                     formik.setValues(selectedEmpresa as any);
+                    formik.setFieldValue('moneda_id', (selectedEmpresa as any).empresa_monedas[0]?.moneda_principal_id);
                   }
                 }
               >Editar</button>

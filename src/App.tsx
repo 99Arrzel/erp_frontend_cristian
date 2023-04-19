@@ -12,6 +12,8 @@ import Menu from "./home/Menu";
 import Gestion from "./gestion/Gestion";
 import Periodos from "./periodos/Periodos";
 import Cuentas from "./cuentas/Cuentas";
+import Monedas from "./configuracion/monedas";
+import Comprobantes from "./comprobantes/comprobantes";
 //Check if user is logged in
 export const isAuth = () => {
   const token = localStorage.getItem("token");
@@ -46,7 +48,9 @@ export default function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="*" element={<Navigate to="/" />} />
           <Route element={<Menu />} >
+            <Route path="/empresa/:id/configuracion/monedas" element={<Monedas />} />
             <Route path="/empresa/:id/plan_cuentas" element={<Cuentas />} />
+            <Route path="/empresa/:id/comprobantes" element={<Comprobantes />} />
             <Route path="/empresa/:id" element={<Empresa />} />
             <Route path="/empresa/:id/gestiones" element={<Gestion />} />
             <Route path="/empresa/:id/gestiones/:gestion_id/periodos" element={<Periodos />} />
