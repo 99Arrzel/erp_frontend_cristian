@@ -6,7 +6,7 @@ import './index.css';
 //export const baseUrl = 'https://backend.pruebita.tk';
 //export const baseUrlReports = 'https://reportes.pruebita.tk';
 
-export const baseUrl = 'http://arrzel.com:3333';
+export const baseUrl = 'https://arrzel.com:3333';
 export const baseUrlReports = 'https://reportes.arrzel.com';
 
 
