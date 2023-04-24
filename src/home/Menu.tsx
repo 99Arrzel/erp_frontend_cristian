@@ -67,9 +67,6 @@ export default function Menu() {
   }, []);
   const items = [
     {
-      label: 'Contabilidad',
-    },
-    {
       label: 'Gestión',
       command: () => {
         navigate(`/empresa/${id}/gestiones`);
