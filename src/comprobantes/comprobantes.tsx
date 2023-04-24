@@ -440,7 +440,7 @@ export default function () {
         </div>
         <div className="flex flex-col">
           <label htmlFor="moneda">Moneda</label>
-          <InputText value={`${formik.values.moneda?.moneda_principal.nombre} : ${formik.values.moneda?.moneda_alternativa.nombre} - ${formik.values.moneda?.cambio}`} readOnly />
+          <InputText value={`${formik.values.moneda?.moneda_principal?.nombre} : ${formik.values.moneda?.moneda_alternativa?.nombre} - ${formik.values.moneda?.cambio}`} readOnly />
         </div>
         <div className="flex flex-col">
           <label htmlFor="tipo">Tipo</label>
