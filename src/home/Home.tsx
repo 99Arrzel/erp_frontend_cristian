@@ -54,10 +54,17 @@ export default function Home() {
   };
   const [monedas, setMonedas] = useState([]);
   useEffect(() => {
-    fetchEmpresas().then((data) => {
-      console.log(data, "Empresas");
-      setEmpresas(data);
-    });
+    try {
+      fetchEmpresas().then((data) => {
+        console.log(data, "Empresas");
+        setEmpresas(data);
+        /* si data type es diferente de un array, error, logear denuevo */
+      });
+    } catch (error) {
+      console.log(error, "Maybe a fix is needed");
+      localStorage.removeItem('token');
+      window.location.href = '/logout';
+    }
     fetchMonedas().then((data) => {
       console.log(data, "Monedas");
       setMonedas(data);

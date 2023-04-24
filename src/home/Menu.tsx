@@ -111,7 +111,6 @@ export default function Menu() {
         navigate(`/logout`);
       }
     }
-
   ];
   return (
     <>
