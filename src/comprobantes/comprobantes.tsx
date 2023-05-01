@@ -364,8 +364,9 @@ export default function () {
                 </div>
               );
             }}
+            filter
             optionLabel="nombre"
-            name="cuenta" onChange={formikDetalle.handleChange} value={formikDetalle.values.cuenta} options={empresa?.cuentas} />
+            name="cuenta" onChange={formikDetalle.handleChange} value={formikDetalle.values.cuenta} options={empresa?.cuentas.filter((cuenta: any) => cuenta.tipo == "DETALLE")} />
         </div>
         <div className="flex flex-col ">
           <label htmlFor="debe">Debe</label>
