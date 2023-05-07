@@ -9,7 +9,8 @@ import { useFormik } from "formik";
 import { InputNumber } from "primereact/inputnumber";
 import { Dropdown } from "primereact/dropdown";
 import { Toast } from "primereact/toast";
-import { baseUrl } from "../main";
+import { baseUrl, baseUrlReports } from "../main";
+import { urlReporte } from "../home/Home";
 
 export function crearComprobante(v: any) {
   return fetch(baseUrl + '/api/comprobante/crear', {
@@ -313,6 +314,19 @@ export default function () {
   const sumarTotalHaberAlt = () => {
     return `T:${selectedComprobante?.comprobante_detalles.reduce((a: any, b: any) => a + b.monto_haber_alt, 0)}`;
   };
+  const verComprobante = (id: string) => {
+    window.open(urlReporte({
+      valores: {
+        sessionDecorator: "no",
+        chrome: "false",
+        decorate: "no",
+        toolbar: "false",
+        j_username: 'jasperadmin', j_password: 'bitnami',
+        ID_COMPROBANTE: id
+      }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2FComp_rep&standAlone=true`
+    }), '_blank');
+  };
+
   return (<>
     <Dialog draggable={false}
       header={`Detalles del comprobante ${selectedComprobante?.serie} : ${selectedComprobante?.glosa}`}
@@ -544,6 +558,12 @@ export default function () {
             cerrar(selectedComprobante.id);
           }}
         >Cerrar</button>
+        <button className="bg-purple-500 p-2 rounded-lg text-white disabled:bg-gray-500"
+          disabled={selectedComprobante == null}
+          onClick={() => {
+            verComprobante(selectedComprobante.id);
+          }}
+        >Ver comprobante</button>
       </div>
       <DataTable value={empresa?.comprobantes} loading={empresa == null} emptyMessage="Sin comprobantes" selectionMode="single"
         metaKeySelection={false}
