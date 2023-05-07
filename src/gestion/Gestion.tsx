@@ -334,7 +334,16 @@ export default function () {
               async () => {
                 const idU = await getId();
                 /* Abrir nueva ventana */
-                window.open(urlReporte({ valores: { idEmpresa: id, idUsuario: idU }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fgestion_report&standAlone=true` }), '_blank');
+                window.open(urlReporte({
+                  valores: {
+                    sessionDecorator: "no",
+                    chrome: "false",
+                    decorate: "no",
+                    toolbar: "false",
+                    j_username: 'jasperadmin', j_password: 'bitnami',
+                    idEmpresa: id, idUsuario: idU
+                  }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fgestion_report&standAlone=true`
+                }), '_blank');
               }
             }
           >Reporte Gestiones</button>

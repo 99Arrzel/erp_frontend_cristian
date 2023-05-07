@@ -374,20 +374,30 @@ export default function () {
           >
             Eliminar
           </button>
-          <button className="bg-purple-500 p-2 rounded-lg disabled:bg-gray-500"
+          {/* "No debe existir boton de cerrar periodos" */}
+          {/* <button className="bg-purple-500 p-2 rounded-lg disabled:bg-gray-500"
             disabled={selectedPeriod && selectedPeriod.estado ? false : true}
             onClick={() => {
               setCerrarDialogVisibility(true);
             }}
           >
             Cerrar
-          </button>
+          </button> */}
           <button className='bg-gray-800 p-2 disabled:bg-gray-500 rounded-lg'
             onClick={
               async () => {
                 const idU = await getId();
                 /* Abrir nueva ventana */
-                window.open(urlReporte({ valores: { IdEmpresa: id as string, IdGestion: gestion_id as string, IdUsuario: idU }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fperiodo_report&standAlone=true` }), '_blank');
+                window.open(urlReporte({
+                  valores: {
+                    sessionDecorator: "no",
+                    chrome: "false",
+                    decorate: "no",
+                    toolbar: "false",
+                    j_username: 'jasperadmin', j_password: 'bitnami',
+                    IdEmpresa: id as string, IdGestion: gestion_id as string, IdUsuario: idU
+                  }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fperiodo_report&standAlone=true`
+                }), '_blank');
               }
             }
           >Reporte Periodos</button>

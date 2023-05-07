@@ -2,12 +2,13 @@ import { useFormik } from 'formik';
 import { Column } from 'primereact/column';
 import { Dialog } from 'primereact/dialog';
 import { TreeTable } from 'primereact/treetable';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import { urlReporte } from '../home/Home';
 import { getId } from '../login/Login';
 import { baseUrl, baseUrlReports } from '../main';
 import TreeMaker from './TreeMaker';
+import { Toast } from 'primereact/toast';
 
 export function deleteCuenta(id: number) {
   return new Promise((resolve, reject) => {
@@ -134,7 +135,10 @@ export default function () {
     onSubmit: (values) => {
       console.log(values);
       upsertNode({ nombre: values.nombre, padre_id: values.padre_id, id: values.id, empresa_id: values.empresa_id }).then((res: any) => {
-        console.log(res);
+        if (res.id) {
+          toast.current?.show({ severity: 'success', summary: 'Cuenta creada', detail: 'Cuenta nueva/editada 👌' });
+        }
+        console.log(res, "Respuesta de upsert_node");
         fetchCuentasPorEmpresa(Number(id)).then((res: any) => {
           setCuentas(res);
           setTree([{ key: '0', data: { nombre: 'Plan de Cuentas', codigo: '-', tipo: '-', nivel: '-' }, children: TreeMaker(res) }] as any[]);
@@ -146,9 +150,10 @@ export default function () {
   });
   const [expandedKeys, setExpandedKeys] = useState<any>({ 0: true });
   const [deleteDialogVisible, setDeleteDialogVisible] = useState<boolean>(false);
-
+  const toast = useRef<Toast>(null);
   return (
     <>
+      <Toast ref={toast} />
       <Dialog
         visible={deleteDialogVisible}
         header="Eliminar cuenta"
@@ -160,6 +165,12 @@ export default function () {
           <p>¿Está seguro que desea eliminar la cuenta {selectedNode?.data?.nombre}?</p>
           <button className='bg-red-500 p-2 rounded-lg text-white' onClick={() => {
             deleteCuenta(selectedNode?.data?.id).then((res: any) => {
+              if (res.id) {
+                toast.current?.show({ severity: 'success', summary: 'Éxito', detail: 'Cuenta eliminada' });
+              }
+              if (res.message) {
+                return toast.current?.show({ severity: 'error', summary: 'Error', detail: res.message });
+              }
               console.log(res);
               fetchCuentasPorEmpresa(Number(id)).then((res: any) => {
                 setCuentas(res);
@@ -231,7 +242,16 @@ export default function () {
               async () => {
                 const idU = await getId();
                 /* Abrir nueva ventana */
-                window.open(urlReporte({ valores: { idEmpresa: id as string, idUsuario: idU }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fcuenta_report&standAlone=true` }), '_blank');
+                window.open(urlReporte({
+                  valores: {
+                    sessionDecorator: "no",
+                    chrome: "false",
+                    decorate: "no",
+                    toolbar: "false",
+                    j_username: 'jasperadmin', j_password: 'bitnami',
+                    idEmpresa: id as string, idUsuario: idU
+                  }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fcuenta_report&standAlone=true`
+                }), '_blank');
               }
             }
           >Reporte Cuentas</button>

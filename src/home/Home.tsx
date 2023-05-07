@@ -9,16 +9,23 @@ import { getId } from '../login/Login';
 
 
 export async function fetchMonedas() {
+
   let data = await fetch(`${baseUrl}/api/monedas/todas`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-  }).then((res) => res.json());
+  }).then((res) => {
+    if (res.status === 401) {
+      console.log(res, "Unauthorized, redirect");
+      localStorage.removeItem('token');
+      window.location.href = '/logout';
+    }
+    return res.json();
+  });
   return data;
 }
-
 export async function fetchEmpresas() {
   let data = await fetch(`${baseUrl}/api/empresas/listar`, {
     method: "GET",
@@ -26,7 +33,14 @@ export async function fetchEmpresas() {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-  }).then((res) => res.json());
+  }).then((res) => {
+    if (res.status === 401) {
+      console.log(res, "Unauthorized, redirect");
+      localStorage.removeItem('token');
+      window.location.href = '/logout';
+    }
+    return res.json();
+  });
   return data;
 }
 /* Valores como un array de keys string y valores string */
@@ -301,7 +315,16 @@ export default function Home() {
                   async () => {
                     const id = await getId();
                     /* Abrir nueva ventana */
-                    window.open(urlReporte({ valores: { idUsuario: id }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fempresa_report&standAlone=true` }), '_blank');
+                    window.open(urlReporte({
+                      valores: {
+                        sessionDecorator: "no",
+                        chrome: "false",
+                        decorate: "no",
+                        toolbar: "false",
+                        j_username: 'jasperadmin', j_password: 'bitnami',
+                        idUsuario: id
+                      }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2Fempresa_report&standAlone=true`
+                    }), '_blank');
                   }
                 }
               >Reporte Empresas</button>

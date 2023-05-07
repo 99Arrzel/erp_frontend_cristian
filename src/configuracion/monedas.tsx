@@ -70,14 +70,22 @@ export default function Monedas() {
       ).then((res) => {
         if (res.status == 200) {
           toast.current?.show({ severity: "success", summary: "Éxito", detail: "Se ha guardado correctamente", life: 3000 });
-          formik.resetForm();
+          //formik.resetForm();
           if (id) {
             GetEmpresa({ id: parseInt(id) }).then((res: any) => {
+              console.log("La empresa:", res);
               const val = res.empresa_monedas.pop().moneda_principal;
+              if (res.empresa_monedas.length > 0) {
+                console.log("La empresa:", res);
+                const ultima_update = res.empresa_monedas[0];
+                formik.setFieldValue("moneda_alternativa", ultima_update.moneda_alternativa);
+                formik.setFieldValue("cambio", ultima_update.cambio);
+              }
               formik.setFieldValue("empresa_id", res.id);
               setEmpresa(res);
               formik.setFieldValue("moneda_principal", val);
               fetchMonedas().then((resul) => {
+                console.log("Las monedas:", resul);
                 const monfetch = resul.filter((moneda: any) => moneda.id != val.id);
                 setMonedas(monfetch);
               });
@@ -92,6 +100,12 @@ export default function Monedas() {
     if (id) {
       GetEmpresa({ id: parseInt(id) }).then((res: any) => {
         const val = res.empresa_monedas.pop().moneda_principal;
+        if (res.empresa_monedas.length > 0) {
+          console.log("La empresa:", res);
+          const ultima_update = res.empresa_monedas[0];
+          formik.setFieldValue("moneda_alternativa", ultima_update.moneda_alternativa);
+          formik.setFieldValue("cambio", ultima_update.cambio);
+        }
         formik.setFieldValue("empresa_id", res.id);
         setEmpresa(res);
         formik.setFieldValue("moneda_principal", val);
@@ -130,12 +144,13 @@ export default function Monedas() {
                 value={formik.values.cambio} onValueChange={(e) => {
                   formik.setFieldValue("cambio", e.value);
                 }} />
+              <button type="submit" className="bg-green-500 p-3.5 rounded-lg text-white">Guardar</button>
             </div>
 
           </div>
         </div >
-        <div className="flex justify-center m-2"><button type="submit" className="bg-green-500 p-4 rounded-lg text-white">Guardar</button></div>
-      </form>
+
+      </form >
       <DataTable value={empresa?.empresa_monedas} emptyMessage="Sin registros">
         <Column header="Fecha de registro" body={formatFechaCreatedAt} />
         <Column header="Cambio" field="cambio" />

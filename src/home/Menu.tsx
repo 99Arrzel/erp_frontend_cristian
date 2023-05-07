@@ -71,7 +71,14 @@ export default function Menu() {
       command: () => {
         navigate(`/empresa/${id}/gestiones`);
       }
-    }, {
+    },
+    {
+      label: 'Reportes',
+      command: () => {
+        navigate(`/empresa/${id}/reportes`);
+      }
+    },
+    {
 
       label: "Contabilidad",
       items: [{
