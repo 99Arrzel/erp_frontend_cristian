@@ -41,8 +41,6 @@ export function cerrarComprobante(id: number) {
 }
 
 
-
-
 export default function () {
   const { id } = useParams();
   const [empresa, setEmpresa] = useState<any>(null);
