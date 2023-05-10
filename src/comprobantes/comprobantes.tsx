@@ -102,7 +102,7 @@ export default function () {
       }
       console.log(values, "Valores en form");
       console.log(values.moneda, "Moneda en form");
-      values.moneda_id = values.moneda.id;
+      values.moneda_id = values.moneda.moneda_alternativa_id;
       crearComprobante(values).then(async (res) => {
         let error = await (res.text().then((res) => JSON.parse(res)));
 
