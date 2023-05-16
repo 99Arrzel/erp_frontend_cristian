@@ -15,6 +15,8 @@ import Cuentas from "./cuentas/Cuentas";
 import Monedas from "./configuracion/monedas";
 import Comprobantes from "./comprobantes/comprobantes";
 import Reportes from "./reportes/Reportes";
+import CrearComprobante from "./comprobantes/crear_comprobante";
+import DetalleComprobante from "./comprobantes/detalle_comprobante";
 //Check if user is logged in
 export const isAuth = () => {
   const token = localStorage.getItem("token");
@@ -53,6 +55,8 @@ export default function App() {
             <Route path="/empresa/:id/plan_cuentas" element={<Cuentas />} />
             <Route path="/empresa/:id/reportes" element={<Reportes />} />
             <Route path="/empresa/:id/comprobantes" element={<Comprobantes />} />
+            <Route path="/empresa/:id/comprobantes/crear" element={<CrearComprobante />} />
+            <Route path="/empresa/:id/comprobantes/detalle/:id_comprobante" element={<DetalleComprobante />} />
             <Route path="/empresa/:id" element={<Empresa />} />
             <Route path="/empresa/:id/gestiones" element={<Gestion />} />
             <Route path="/empresa/:id/gestiones/:gestion_id/periodos" element={<Periodos />} />
