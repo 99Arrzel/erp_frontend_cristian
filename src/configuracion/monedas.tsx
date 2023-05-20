@@ -87,6 +87,7 @@ export default function Monedas() {
               fetchMonedas().then((resul) => {
                 console.log("Las monedas:", resul);
                 const monfetch = resul.filter((moneda: any) => moneda.id != val.id);
+
                 setMonedas(monfetch);
               });
             });
@@ -100,19 +101,24 @@ export default function Monedas() {
     if (id) {
       GetEmpresa({ id: parseInt(id) }).then((res: any) => {
         const val = res.empresa_monedas.pop().moneda_principal;
+        formik.setFieldValue("empresa_id", res.id);
+        setEmpresa(res);
+        formik.setFieldValue("moneda_principal", val);
+        console.log(res, "empresa");
         if (res.empresa_monedas.length > 0) {
           console.log("La empresa:", res);
           const ultima_update = res.empresa_monedas[0];
           formik.setFieldValue("moneda_alternativa", ultima_update.moneda_alternativa);
           formik.setFieldValue("cambio", ultima_update.cambio);
+
+          setMonedas([ultima_update.moneda_alternativa]);
+        } else {
+          console.log("No hay monedas");
+          fetchMonedas().then((resul) => {
+            const monfetch = resul.filter((moneda: any) => moneda.id != val.id);
+            setMonedas(monfetch);
+          });
         }
-        formik.setFieldValue("empresa_id", res.id);
-        setEmpresa(res);
-        formik.setFieldValue("moneda_principal", val);
-        fetchMonedas().then((resul) => {
-          const monfetch = resul.filter((moneda: any) => moneda.id != val.id);
-          setMonedas(monfetch);
-        });
       });
     }
   }, []);
