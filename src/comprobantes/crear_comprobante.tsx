@@ -19,8 +19,11 @@ function CrearComprobante() {
         setEmpresa(data);
         let moneda_activa = data?.empresa_monedas.find((x: any) => x.activo);
         console.log(moneda_activa);
-        formik.setFieldValue('moneda', moneda_activa);
+        //Delay for this
+        formik.setFieldValue('moneda', moneda_activa.moneda_alternativa);
         formik.setFieldValue('tc', moneda_activa?.cambio);
+
+        console.log(moneda_activa?.cambio, "Le cambio actual");
         console.log(data);
         setCuentasFiltradas(data?.cuentas.filter((cuenta: any) => cuenta.tipo == "DETALLE"));
       });
@@ -78,7 +81,7 @@ function CrearComprobante() {
       }
       console.log(values, "Valores en form");
       console.log(values.moneda, "Moneda en form");
-      values.moneda_id = values.moneda.moneda_alternativa_id;
+      values.moneda_id = values.moneda.id;
       crearComprobante(values).then(async (res) => {
         let error = await (res.text().then((res) => JSON.parse(res)));
         console.log(error);
@@ -237,20 +240,41 @@ function CrearComprobante() {
           <div className="flex flex-col">
             <label htmlFor="tc">Tipo de cambio</label>
             <InputNumber
-              max={(isNaN(Math.trunc(formik.values.moneda?.cambio)) ? 0 : Math.trunc(formik.values.moneda?.cambio)) + 0.99}
-              min={Math.trunc(formik.values.moneda?.cambio ?? 0)}
+              /* max={(isNaN(Math.trunc(formik.values.moneda?.cambio)) ? 0 : Math.trunc(formik.values.moneda?.cambio)) + 0.99} */
+              max={
+                formik.values.moneda != null ?
+                  (formik.values.moneda.id == empresa?.empresa_monedas[0].moneda_alternativa.id ? Math.trunc(empresa?.empresa_monedas[0].cambio) + 0.99
+                    : Math.trunc(1 / (empresa.empresa_monedas[0].cambio)) + 0.99) : Infinity
+              }
+              /* min={Math.trunc(formik.values.moneda?.cambio )} */
+              min={
+                formik.values.moneda != null ?
+                  (formik.values.moneda.id == empresa?.empresa_monedas[0].moneda_alternativa.id ? Math.trunc(empresa?.empresa_monedas[0].cambio ?? 0) : Math.trunc(1 / (empresa.empresa_monedas[0].cambio))) : 0
+              }
               maxFractionDigits={2}
               minFractionDigits={2}
               mode="decimal"
-              name="tc" onChange={(e) => {
-                if (e.value && e.value > 0) {
-                  formik.setFieldValue('tc', e.value);
-                }
-              }} value={isNaN(formik.values.tc) ? 0 : formik.values.tc} disabled={formik.values.moneda == null} />
+              name="tc"
+              onChange={(e) => {
+                formik.setFieldValue('tc', e.value);
+              }
+              }
+              value={
+                formik.values.tc
+                /* formik.values.moneda?.id == empresa?.empresa_monedas[0].moneda_principal.id ? empresa?.empresa_monedas[0].cambio : 1 / (empresa?.empresa_monedas[0].cambio ?? 1) */
+              }
+
+            />
           </div>
           <div className="flex flex-col">
             <label htmlFor="moneda">Moneda</label>
-            <InputText value={`${formik.values.moneda?.moneda_principal?.nombre} : ${formik.values.moneda?.moneda_alternativa?.nombre} `} readOnly />
+            {/* <InputText value={`${formik.values.moneda?.moneda_principal?.nombre} : ${formik.values.moneda?.moneda_alternativa?.nombre} `} readOnly /> */}
+            <Dropdown name="moneda" optionLabel="nombre" onChange={(e: any) => {
+              formik.setFieldValue('moneda', e.value);
+              console.log(e.value.id, empresa?.empresa_monedas[0].moneda_principal.id);
+              formik.setFieldValue('tc', e.value?.id == empresa?.empresa_monedas[0].moneda_alternativa.id ? empresa?.empresa_monedas[0].cambio : 1 / (empresa?.empresa_monedas[0].cambio ?? 1));
+
+            }} value={formik.values.moneda} options={[empresa?.empresa_monedas[0].moneda_alternativa, empresa?.empresa_monedas[0].moneda_principal]} />
           </div>
           <div className="flex flex-col">
             <label htmlFor="tipo">Tipo</label>
@@ -265,7 +289,7 @@ function CrearComprobante() {
                   formik.setFieldValue('fecha', new Date(e.target.value));
                 }
               } value={
-                new Date(formik.values.fecha).toISOString().split('T')[0]
+                isNaN((new Date(formik.values.fecha)).getTime()) ? 0 : (new Date(formik.values.fecha)).toISOString().split('T')[0]
               } />
           </div>
         </div>

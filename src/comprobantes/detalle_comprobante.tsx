@@ -74,9 +74,7 @@ export function DetalleComprobante() {
               />
             </div>
           </div>
-
         </div>
-
         <DataTable
           value={comprobante?.comprobante_detalles}
           emptyMessage="Añade detalles">
