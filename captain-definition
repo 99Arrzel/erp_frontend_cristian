@@ -6,6 +6,8 @@
     "COPY package*.json ./",
     "RUN npm install && npm cache clean --force",
     "COPY . .",
+    "ARG VITE_BASE_URL",
+    "ARG VITE_BASE_URL_REPORTS",
     "RUN npm run build",
     "CMD npm run preview"
   ]
