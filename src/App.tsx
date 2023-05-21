@@ -17,6 +17,11 @@ import Comprobantes from "./comprobantes/comprobantes";
 import Reportes from "./reportes/Reportes";
 import CrearComprobante from "./comprobantes/crear_comprobante";
 import DetalleComprobante from "./comprobantes/detalle_comprobante";
+import Categorias from "./categorias/categorias";
+import Articulos from "./articulos/articulos";
+import NotaCompra from "./notas/compra";
+import NotaVenta from "./notas/venta";
+import CrearCompra from "./notas/crear_compra";
 //Check if user is logged in
 export const isAuth = () => {
   const token = localStorage.getItem("token");
@@ -53,7 +58,12 @@ export default function App() {
           <Route element={<Menu />} >
             <Route path="/empresa/:id/configuracion/monedas" element={<Monedas />} />
             <Route path="/empresa/:id/plan_cuentas" element={<Cuentas />} />
+            <Route path="/empresa/:id/nota_compra" element={<NotaCompra />} />
+            <Route path="/empresa/:id/nota_compra/crear" element={<CrearCompra />} />
+            <Route path="/empresa/:id/nota_venta" element={<NotaVenta />} />
             <Route path="/empresa/:id/reportes" element={<Reportes />} />
+            <Route path="/empresa/:id/articulos" element={<Articulos />} />
+            <Route path="/empresa/:id/categorias" element={<Categorias />} />
             <Route path="/empresa/:id/comprobantes" element={<Comprobantes />} />
             <Route path="/empresa/:id/comprobantes/crear" element={<CrearComprobante />} />
             <Route path="/empresa/:id/comprobantes/detalle/:id_comprobante" element={<DetalleComprobante />} />

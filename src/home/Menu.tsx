@@ -73,9 +73,35 @@ export default function Menu() {
       }
     },
     {
+      label: 'Articulos',
+      command: () => {
+        navigate(`/empresa/${id}/articulos`);
+      }
+    },
+    {
+      label: 'Notas',
+      items: [{
+        label: 'Nota de compra',
+        command: () => {
+          navigate(`/empresa/${id}/nota_compra`);
+        }
+      }, {
+        label: 'Nota de venta',
+        command: () => {
+          navigate(`/empresa/${id}/nota_venta`);
+        }
+      }]
+    },
+    {
       label: 'Reportes',
       command: () => {
         navigate(`/empresa/${id}/reportes`);
+      }
+    },
+    {
+      label: 'Categorias',
+      command: () => {
+        navigate(`/empresa/${id}/categorias`);
       }
     },
     {

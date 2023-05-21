@@ -110,7 +110,6 @@ export default function Monedas() {
           const ultima_update = res.empresa_monedas[0];
           formik.setFieldValue("moneda_alternativa", ultima_update.moneda_alternativa);
           formik.setFieldValue("cambio", ultima_update.cambio);
-
           setMonedas([ultima_update.moneda_alternativa]);
         } else {
           console.log("No hay monedas");

@@ -24,3 +24,14 @@ export default function TreeMaker(values: Value[], parentId: string | null = nul
     };
   });
 }
+export function TreeMakerGeneric<T extends { [key: string]: any; }>(values: T[], parentId: string | null = null, parentKey: string = 'padre_id'): Data[] {
+  const filteredValues = values.filter(value => value[parentKey] === parentId);
+  return filteredValues.map(value => {
+    const children = TreeMakerGeneric(values, value.id, parentKey); //Acá, esto puede devolver un [] (array vacío)
+    return {
+      key: value.id,
+      data: value,
+      ...(children.length > 0 && { children })
+    };
+  });
+}
