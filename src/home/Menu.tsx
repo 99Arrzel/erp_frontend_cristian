@@ -126,6 +126,12 @@ export default function Menu() {
         command: () => {
           navigate(`/empresa/${id}/configuracion/monedas`);
         }
+      },
+      {
+        label: 'Integración',
+        command: () => {
+          navigate(`/empresa/${id}/configuracion/integracion`);
+        }
       }]
     }
 

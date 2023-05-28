@@ -22,6 +22,7 @@ import Articulos from "./articulos/articulos";
 import NotaCompra from "./notas/compra";
 import NotaVenta from "./notas/venta";
 import CrearCompra from "./notas/crear_compra";
+import Integracion from "./configuracion/integracion";
 //Check if user is logged in
 export const isAuth = () => {
   const token = localStorage.getItem("token");
@@ -57,6 +58,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" />} />
           <Route element={<Menu />} >
             <Route path="/empresa/:id/configuracion/monedas" element={<Monedas />} />
+            <Route path="/empresa/:id/configuracion/integracion" element={<Integracion />} />
             <Route path="/empresa/:id/plan_cuentas" element={<Cuentas />} />
             <Route path="/empresa/:id/nota_compra" element={<NotaCompra />} />
             <Route path="/empresa/:id/nota_compra/crear" element={<CrearCompra />} />
