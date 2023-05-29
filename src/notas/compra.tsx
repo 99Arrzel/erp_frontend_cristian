@@ -3,8 +3,39 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import { useNavigate, useParams } from "react-router";
+import { baseUrl } from "../main";
+import { useEffect, useState } from "react";
+export function GetLista({ id, tipo }: { id: number, tipo: 'compra' | 'venta'; }) {
+  return new Promise((resolve, reject) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      reject("No token");
+    }
+    fetch(`${baseUrl}/api/notas/listar`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id, tipo })
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => reject(err));
+  });
+}
 
 export default function NotaCompra() {
+  const [notas, setNotas] = useState<any[]>([]);
+  const { id } = useParams();
+  useEffect(() => {
+    GetLista({ id: Number(id), tipo: 'compra' }).then((data: any) => {
+      console.log(data);
+      setNotas(data);
+    });
+  }, []);
 
   const eliminar = (data: any) => {
     console.log(data);
@@ -21,7 +52,7 @@ export default function NotaCompra() {
       console.log(values);
     },
   });
-  const { id } = useParams();
+  const [selected, setSelected] = useState<any>(null);
   const navigate = useNavigate();
   return (
     <>
@@ -37,19 +68,66 @@ export default function NotaCompra() {
               >
                 Crear
               </button>
-              <button className="bg-red-500 p-2 rounded-lg">
-                Anular
-              </button>
-              <button className="bg-purple-500 p-2 rounded-lg">
+
+              <button className="bg-purple-500 p-2 rounded-lg disabled:bg-purple-800"
+                onClick={() => {
+                  //Vamos a nota_compra/detalles/:id
+                  navigate(`/empresa/${id}/nota_compra/detalles/${selected?.id}`);
+                }
+                }
+                disabled={!selected}>
                 Detalles
               </button>
             </div>
           </div>
-          <DataTable value={[]} emptyMessage="Agrega un detalle">
-            <Column field="numero" header="Nro."></Column>
-            <Column field="fecha" header="Fecha"></Column>
-            <Column field="descripcion" header="Descripción"></Column>
-            <Column field="estado" header="Estado"></Column>
+          <DataTable
+            selectionMode="single"
+            selection={selected}
+            onSelectionChange={(e) => {
+              setSelected(e.value);
+            }
+            }
+            value={notas} emptyMessage="Agrega un detalle"
+            paginator rows={10} className="p-5"
+            //tiny slim
+            size="small"
+          >
+            <Column field="nro_nota"
+              style={{ width: '100px' }}
+              body={(rowData: any) => {
+                return (
+                  <p className="text-center" >
+                    {rowData.nro_nota}
+                  </p>
+                );
+              }}
+              alignHeader={"center"}
+              header="Nro"></Column>
+            <Column
+              style={{ width: '100px' }}
+              alignHeader={"center"}
+
+              field="fecha" header="Fecha"
+              body={(rowData: any) => {
+                return <p className="text-center">{new Date(rowData.fecha).toLocaleDateString("es-BO", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                }
+                )}</p>;
+              }}
+            ></Column>
+            <Column
+
+              field="descripcion" header="Descripción"></Column>
+            <Column field="estado"
+              style={{ width: '150px' }}
+              body={(rowData: any) => {
+
+                if (rowData.estado === 'activo') return (<div className=" fond-bold p-1 rounded-lg bg-green-500 w-fit text-white">Activo</div>);
+                if (rowData.estado === 'anulado') return (<div className=" fond-bold p-1 rounded-lg bg-red-500 w-fit text-white">Anulado</div>);
+              }}
+              header="Estado"></Column>
           </DataTable>
         </div>
       </div >

@@ -132,7 +132,7 @@ export default function () {
           {`${selectedNode?.data.id ? `Crear subcategoría de ${selectedNode?.data.nombre}` : "Crear categoría"}`}
         </button>
         <button
-          className="bg-yellow-500 my-2 p-2 text-white rounded-lg disabled:bg-gray-300"
+          className="bg-yellow-500 my-2 p-2 text-white rounded-lg disabled:bg-yellow-800"
           disabled={selectedNode == null}
 
           onClick={() => {
@@ -188,7 +188,7 @@ export default function () {
           Editar la categoria
         </button>
         <button
-          className="bg-red-500 my-2 p-2 text-white rounded-lg disabled:bg-gray-300"
+          className="bg-red-500 my-2 p-2 text-white rounded-lg disabled:bg-red-800"
           disabled={selectedNode == null || selectedNode.children != null}
           onClick={() => {
             fetch(`${baseUrl}/api/categorias/eliminar`, {

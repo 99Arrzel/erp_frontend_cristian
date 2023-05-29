@@ -218,7 +218,7 @@ export default function () {
           >
             Crear
           </button>
-          <button className="bg-yellow-500 p-2 rounded-lg text-white disabled:bg-gray-500"
+          <button className="bg-yellow-500 p-2 rounded-lg text-white disabled:bg-yellow-800"
             disabled={selectedNode && selectedNode.data.id ? false : true}
             onClick={() => {
               setvDialogVisible(true);
@@ -228,7 +228,7 @@ export default function () {
           >
             Editar
           </button>
-          <button className="bg-red-500 p-2 rounded-lg text-white disabled:bg-gray-500"
+          <button className="bg-red-500 p-2 rounded-lg text-white disabled:bg-red-800"
             disabled={selectedNode && selectedNode.data.id ? false : true}
             onClick={() => {
               setDeleteDialogVisible(true);
@@ -237,7 +237,7 @@ export default function () {
           >
             Eliminar
           </button>
-          <button className='bg-gray-800 p-2 disabled:bg-gray-500 rounded-lg text-white'
+          <button className='bg-orange-500 p-2 disabled:bg-orange-800 rounded-lg text-white'
             onClick={
               async () => {
                 const idU = await getId();

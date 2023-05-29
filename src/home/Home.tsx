@@ -253,7 +253,7 @@ export default function Home() {
               <textarea name="direccion" id="direccion" className="w-full p-2 border border-gray-300 rounded-md" onChange={formik.handleChange} value={formik.values.direccion} />
             </div>
             <div className='col-span-2'>
-              <button className='bg-green-400 w-full p-2 rounded-md text-white disabled:bg-gray-500' disabled={formik.isSubmitting} type='submit'>Guardar</button>
+              <button className='bg-green-500 w-full p-2 rounded-md text-white disabled:bg-green-800' disabled={formik.isSubmitting} type='submit'>Guardar</button>
             </div>
           </div>
         </form>
@@ -276,7 +276,7 @@ export default function Home() {
               />
             </div>
             <div className='grid grid-cols-5 text-white gap-2 disabled:bg-gray-500'>
-              <button className='bg-blue-500 p-2 disabled:bg-gray-500' disabled={selectedEmpresa ? false : true}
+              <button className='bg-blue-500 p-2 disabled:bg-blue-800' disabled={selectedEmpresa ? false : true}
                 onClick={
                   () => {
                     const id = (selectedEmpresa as any).id;
@@ -293,7 +293,7 @@ export default function Home() {
                   }
                 }
               >Nueva Empresa</button>
-              <button className='bg-yellow-500 p-2 disabled:bg-gray-500' disabled={selectedEmpresa ? false : true}
+              <button className='bg-yellow-500 p-2 disabled:bg-yellow-800' disabled={selectedEmpresa ? false : true}
                 onClick={
                   () => {
                     setVisDialog(true);
@@ -303,14 +303,14 @@ export default function Home() {
                   }
                 }
               >Editar</button>
-              <button className='bg-red-500 p-2 disabled:bg-gray-500' disabled={selectedEmpresa ? false : true}
+              <button className='bg-red-500 p-2 disabled:bg-red-800' disabled={selectedEmpresa ? false : true}
                 onClick={
                   () => {
                     setVisDialogDelete(true);
                   }
                 }
               >Eliminar</button>
-              <button className='bg-gray-800 p-2 disabled:bg-gray-500'
+              <button className='bg-orange-500 p-2 disabled:bg-orange-800'
                 onClick={
                   async () => {
                     const id = await getId();

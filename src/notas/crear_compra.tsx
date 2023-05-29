@@ -7,17 +7,58 @@ import { useEffect, useRef, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from "primereact/inputnumber";
 import { Toast } from "primereact/toast";
+import { baseUrl } from "../main";
+import { useParams } from "react-router";
 
+type Lotes = {
+  articulo_id: number,
+  cantidad: number,
+  precio: number,
+  fecha_vencimiento: string | null,
+};
+
+type NotaCompra = {
+  fecha: Date,
+  descripcion: string,
+  lotes: Lotes[],
+  empresa_id: number,
+};
+export function GetUltimoNumero({ id, tipo }: { id: number, tipo: 'compra' | 'venta'; }) {
+  return new Promise((resolve, reject) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      reject("No token");
+    }
+    fetch(`${baseUrl}/api/notas/ultimo_numero`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id, tipo })
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => reject(err));
+  });
+}
 
 
 export default function CrearCompra() {
   const [articulos, setArticulos] = useState<any[]>([]);
+  const { id } = useParams();
   let todosArticulos = [];
   useEffect(() => {
-    GetArticulos({ id: 1 }).then((data: any) => {
+    GetArticulos({ id: Number(id) }).then((data: any) => {
       console.log(data);
       setArticulos(data);
       todosArticulos = data;
+    });
+    GetUltimoNumero({ id: Number(id), tipo: 'compra' }).then((data: any) => {
+      console.log(data, "Ultimo numero");
+      formik.setFieldValue("num_nota", data.ultimo);
     });
   }, []);
 
@@ -44,6 +85,41 @@ export default function CrearCompra() {
         toast.current?.show({ severity: "error", summary: "Error", detail: "Debe seleccionar una fecha", life: 3000 });
         return;
       }
+      console.log(values);
+      const lotes = values.productos.map((producto) => {
+        return {
+          articulo_id: producto.articulo.id,
+          fecha_vencimiento: producto.fecha_vencimiento,
+          cantidad: producto.cantidad,
+          precio: producto.precio,
+        };
+      });
+      console.log(lotes);
+      fetch(`${baseUrl}/api/notas/crear_compra`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          fecha: new Date(values.fecha),
+          descripcion: values.descripcion,
+          lotes,
+          empresa_id: Number(id),
+        } as NotaCompra),
+      }).then((res) => {
+        if (res.ok) {
+          toast.current?.show({ severity: "success", summary: "Exito", detail: "Nota de compra creada correctamente", life: 3000 });
+          formik.resetForm();
+        } else {
+          throw res;
+        }
+      }).catch((err) => {
+        err.json().then((data: any) => {
+          toast.current?.show({ severity: "error", summary: "Error", detail: data.message, life: 3000 });
+        });
+      });
+
     },
   });
   const acciones = (data: any) => {
@@ -126,6 +202,8 @@ export default function CrearCompra() {
       }
       formikDetalles.resetForm();
 
+
+
     },
   });
 
@@ -138,7 +216,7 @@ export default function CrearCompra() {
         <form className="flex gap-2" onSubmit={formik.handleSubmit}>
           <div>
             <p>Nro:</p>
-            <InputNumber value={formik.values.num_nota ?? 1} readOnly />
+            <InputNumber value={formik.values.num_nota} readOnly />
           </div>
           <div>
             <p>Fecha:</p>
@@ -153,6 +231,7 @@ export default function CrearCompra() {
           <div>
             <button
               className="bg-green-500 p-2 text-white rounded-lg mt-6"
+              type="submit"
             >Crear Nota de Compra</button>
           </div>
         </form>

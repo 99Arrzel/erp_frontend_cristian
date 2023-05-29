@@ -331,7 +331,7 @@ export default function () {
                 value={formik.values.fecha_fin}
               />
             </div>
-            <button type="submit" className="text-white mt-2 w-full bg-green-500 p-2 rounded-lg disabled:bg-gray-500">
+            <button type="submit" className="text-white mt-2 w-full bg-green-500 p-2 rounded-lg disabled:bg-green-800">
               Guardar
             </button>
           </form>
@@ -340,7 +340,7 @@ export default function () {
       <div className="m-2">
         <p className="text-2xl text-center">Administración de Periodo {gestion && `${gestion?.nombre ?? ""} => ${new Date(gestion?.fecha_inicio).toLocaleDateString()} - ${new Date(gestion?.fecha_fin).toLocaleDateString()}`}</p>
         <div className="flex m-2 text-white gap-2" >
-          <button className="bg-green-500 p-2 rounded-lg disabled:bg-gray-500"
+          <button className="bg-green-500 p-2 rounded-lg disabled:bg-green-800"
             onClick={() => {
               setDialogHeader("Crear periodo");
               formik.resetForm();
@@ -350,7 +350,7 @@ export default function () {
           >
             Crear
           </button>
-          <button className="bg-yellow-500 p-2 rounded-lg disabled:bg-gray-500"
+          <button className="bg-yellow-500 p-2 rounded-lg disabled:bg-yellow-800"
             disabled={selectedPeriod && selectedPeriod.estado ? false : true}
             onClick={() => {
               setDialogHeader("Editar periodo");
@@ -366,7 +366,7 @@ export default function () {
           >
             Editar
           </button>
-          <button className="bg-red-500 p-2 rounded-lg disabled:bg-gray-500"
+          <button className="bg-red-500 p-2 rounded-lg disabled:bg-red-800"
             disabled={selectedPeriod && selectedPeriod.estado ? false : true}
             onClick={() => {
               setEliminarDialogVisibility(true);
@@ -374,16 +374,8 @@ export default function () {
           >
             Eliminar
           </button>
-          {/* "No debe existir boton de cerrar periodos" */}
-          {/* <button className="bg-purple-500 p-2 rounded-lg disabled:bg-gray-500"
-            disabled={selectedPeriod && selectedPeriod.estado ? false : true}
-            onClick={() => {
-              setCerrarDialogVisibility(true);
-            }}
-          >
-            Cerrar
-          </button> */}
-          <button className='bg-gray-800 p-2 disabled:bg-gray-500 rounded-lg'
+
+          <button className='bg-orange-500 p-2 disabled:bg-orange-800 rounded-lg'
             onClick={
               async () => {
                 const idU = await getId();
@@ -401,7 +393,7 @@ export default function () {
               }
             }
           >Reporte Periodos</button>
-          <button className=" bg-blue-500 p-2 rounded-lg disabled:bg-gray-500 ml-auto"
+          <button className=" bg-blue-500 p-2 rounded-lg disabled:bg-blue-800 ml-auto"
             onClick={
               () => {
                 navigate(`/empresa/${id}/gestiones`);

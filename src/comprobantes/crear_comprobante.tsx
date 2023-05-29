@@ -296,15 +296,7 @@ function CrearComprobante() {
         <div className="mt-2">
           <h1 className="text-2xl font-bold">Añadir un detalle</h1>
           <div className="flex flex-wrap gap-2">
-            <div className="flex flex-col">
-              <label htmlFor="glosa">Glosa</label>
-              <InputText name="glosa" onChange={
-                (e) => {
-                  formikDetalle.setFieldValue('glosa', e.target.value);
-                  setGlosaHasBeenInteracted(true);
-                }
-              } value={formikDetalle.values.glosa} />
-            </div>
+
             <div className="flex flex-col">
               <label htmlFor="glosa">Cuenta</label>
               <Dropdown
@@ -327,6 +319,15 @@ function CrearComprobante() {
                 optionLabel="nombre"
                 name="cuenta" onChange={formikDetalle.handleChange} value={formikDetalle.values.cuenta}
                 options={cuentasFiltras} />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="glosa">Glosa</label>
+              <InputText name="glosa" onChange={
+                (e) => {
+                  formikDetalle.setFieldValue('glosa', e.target.value);
+                  setGlosaHasBeenInteracted(true);
+                }
+              } value={formikDetalle.values.glosa} />
             </div>
             <div className="flex flex-col ">
               <label htmlFor="debe">Debe</label>

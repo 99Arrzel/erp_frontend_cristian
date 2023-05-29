@@ -99,7 +99,7 @@ export default function Reportes() {
             </div>
             <button
               disabled={!selectedGestionR_BI || !selectedMonedaR_BI}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-500"
+              className="bg-blue-500  text-white font-bold py-2 px-4 rounded disabled:bg-blue-800"
               onClick={
                 () => {
                   window.open(urlReporte({
@@ -206,7 +206,7 @@ export default function Reportes() {
             </div>
             <button
               disabled={!selectedGestionR_LD || !selectedMonedaR_LD}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-500"
+              className="bg-blue-500  text-white font-bold py-2 px-4 rounded disabled:bg-blue-800"
               onClick={
                 () => {
                   window.open(urlReporte({
@@ -314,7 +314,7 @@ export default function Reportes() {
             </div>
             <button
               disabled={!selectedGestionR_LM || !selectedMonedaR_LM}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-500"
+              className="bg-blue-500  text-white font-bold py-2 px-4 rounded disabled:bg-blue-800"
               onClick={
                 () => {
                   window.open(urlReporte({
@@ -385,7 +385,7 @@ export default function Reportes() {
             </div>
             <button
               disabled={!selectedGestionR_SS || !selectedMonedaR_SS}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-500"
+              className="bg-blue-500  text-white font-bold py-2 px-4 rounded disabled:bg-blue-800"
               onClick={
                 () => {
                   window.open(urlReporte({

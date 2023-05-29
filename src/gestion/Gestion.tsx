@@ -290,7 +290,7 @@ export default function () {
       <div className="m-2">
         <p className="text-2xl text-center">Administración de gestiones</p>
         <div className="flex m-2 text-white gap-2" >
-          <button className="bg-green-500 p-2 rounded-lg disabled:bg-gray-500"
+          <button className="bg-green-500 p-2 rounded-lg disabled:bg-green-800"
             onClick={() => {
               setvDialogHeader("Crear Gestion");
               setvDialogVisible(true);
@@ -299,7 +299,7 @@ export default function () {
           >
             Crear
           </button>
-          <button className="bg-yellow-500 p-2 rounded-lg disabled:bg-gray-500"
+          <button className="bg-yellow-500 p-2 rounded-lg disabled:bg-yellow-800"
             disabled={selectedGestion && selectedGestion.estado ? false : true}
             onClick={() => {
               setvDialogHeader("Editar Gestion");
@@ -314,7 +314,7 @@ export default function () {
             }}>
             Editar
           </button>
-          <button className="bg-red-500 p-2 rounded-lg disabled:bg-gray-500"
+          <button className="bg-red-500 p-2 rounded-lg disabled:bg-red-800"
             disabled={selectedGestion && selectedGestion.estado ? false : true}
             onClick={() => {
               setvDialogEliminar(true);
@@ -322,14 +322,14 @@ export default function () {
           >
             Eliminar
           </button>
-          <button className="bg-purple-500 p-2 rounded-lg disabled:bg-gray-500" disabled={selectedGestion && selectedGestion.estado ? false : true}
+          <button className="bg-purple-500 p-2 rounded-lg disabled:bg-purple-800" disabled={selectedGestion && selectedGestion.estado ? false : true}
             onClick={() => {
               setvDialogCerrar(true);
             }}
           >
             Cerrar
           </button>
-          <button className='bg-gray-800 p-2 disabled:bg-gray-500 rounded-lg'
+          <button className='bg-orange-500 p-2 disabled:bg-orange-800 rounded-lg'
             onClick={
               async () => {
                 const idU = await getId();
@@ -347,7 +347,7 @@ export default function () {
               }
             }
           >Reporte Gestiones</button>
-          <button className="bg-blue-500 p-2 rounded-lg disabled:bg-gray-500 ml-auto" disabled={selectedGestion ? false : true}
+          <button className="bg-blue-500 p-2 rounded-lg disabled:bg-blue-800 ml-auto" disabled={selectedGestion ? false : true}
             onClick={() => {
               ///empresa/:id/gestiones/:gestion_id/periodos
               navigate(`/empresa/${id}/gestiones/${selectedGestion.id}/periodos`);
