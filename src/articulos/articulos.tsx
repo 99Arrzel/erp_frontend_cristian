@@ -10,6 +10,7 @@ import { GetCategorias } from "../categorias/categorias";
 import { Toast } from "primereact/toast";
 import { InputNumber } from "primereact/inputnumber";
 import { Dialog } from "primereact/dialog";
+import { SvgEditar, SvgEliminar, SvgLotes, SvgNuevo } from "../home/Home";
 export function GetArticulos({ id }: { id: number; }) {
   return new Promise((resolve, reject) => {
     const token = localStorage.getItem("token");
@@ -36,7 +37,7 @@ export function GetArticulos({ id }: { id: number; }) {
 export default function () {
   const { id } = useParams();
   const [articulos, setArticulos] = useState<any[]>([]);
-  const [articulo, setArticulo] = useState<any>(null);
+  const [articuloLotes, setArticuloLotes] = useState<any>(null);
   const [categorias, setCategorias] = useState<any[]>([]);
   useEffect(() => {
     if (id) {
@@ -97,18 +98,13 @@ export default function () {
           return res.json();
         })
         .then((res) => {
-          console.log(res);
-          if (values.id) {
-            setArticulos(articulos.map((art: any) => {
-              if (art.id == values.id) {
-                return res;
-              }
-              return art;
-            }));
-          }
-          else {
-            setArticulos([...articulos, res]);
-          }
+          GetArticulos({ id: Number(id) }).then((data: any) => {
+            console.log(data);
+            setArticulos(data);
+          });
+
+          setDialogArticulo(false);
+
           toast.current?.show({
             severity: "success",
             summary: "Éxito",
@@ -132,11 +128,7 @@ export default function () {
   const toast = useRef<Toast>(null);
   const [selected, setSelected] = useState<any>(null);
 
-  function eliminar(articulo: any) {
-    return (<button onClick={() => {
-      eliminar_articulo(articulo);
-    }} className="bg-red-500 p-2 text-white rounded-lg">Eliminar</button>);
-  }
+
 
 
   function eliminar_articulo(articulo: any) {
@@ -172,69 +164,112 @@ export default function () {
     });
   };
 
-  function lotes(articulo: any) {
-    return (<button onClick={() => {
-      setArticulo(articulo);
-    }} className="bg-blue-500 p-2 text-white rounded-lg">Lotes</button>);
-  }
+
+
+  const [dialogArticulo, setDialogArticulo] = useState<boolean>(false);
   return (
     <>
-      <Dialog header="Lotes" visible={articulo != null} style={{ width: '80vw' }} onHide={() => setArticulo(null)}>
-        {articulo != null ? lotes_render(articulo) : null}
+      <Dialog header="Lotes" visible={articuloLotes != null} style={{ width: '80vw' }} onHide={() => setArticuloLotes(null)}>
+        {selected != null ? lotes_render(selected) : null}
       </Dialog>
 
+      <Dialog header="Articulos" visible={dialogArticulo} style={{ width: '80vw' }} onHide={() => setDialogArticulo(false)}>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
+              <label htmlFor="nombre">Nombre</label>
+              <InputText type="text"
+
+                value={formik.values.nombre}
+                name="nombre" id="nombre" onChange={formik.handleChange} />
+              < label htmlFor="descripcion">Descripción</label>
+              <InputText
+                value={formik.values.descripcion}
+                type="text" name="descripcion" id="descripcion" onChange={formik.handleChange} />
+              <label htmlFor="precio_venta">Precio de venta</label>
+              <InputNumber
+                value={formik.values.precio_venta ?? 0}
+                name="precio_venta" id="precio_venta" onChange={
+                  (e) => {
+                    formik.setFieldValue("precio_venta", e.value);
+                  }
+                } />
+              <label htmlFor="categorias">Categorias</label>
+              <MultiSelect value={formik.values.categorias}
+                optionLabel="nombre"
+                options={categorias}
+                name="categorias" id="categorias"
+                onChange={(e) => {
+                  formik.setFieldValue("categorias", e.value);
+                }}
+              />
+            </div>
+            <div className="flex justify-center">
+              <button type="submit" className={`bg-${formik.values.id ? 'yellow' : 'green'}-500 p-2 text-white rounded-lg`}>{formik.values.id ? <SvgEditar mensaje="Editar articulo" /> : <SvgNuevo mensaje="Crear articulo" />}</button>
+            </div>
+          </div>
+        </form>
+      </Dialog>
       <Toast ref={toast} />
       <div className="m-10">
         <div>
-          <h1 className="text-2xl font-bold">Articulos</h1>
-          <form onSubmit={formik.handleSubmit}>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col">
-                <label htmlFor="nombre">Nombre</label>
-                <InputText type="text"
+          <h1 className="text-2xl text-center font-bold">Articulos</h1>
+          <div className="flex gap-2">
+            <button
+              className="bg-green-500 rounded-lg text-white p-2 disabled:bg-green-800"
 
-                  value={formik.values.nombre}
-                  name="nombre" id="nombre" onChange={formik.handleChange} />
-                < label htmlFor="descripcion">Descripción</label>
-                <InputText
-                  value={formik.values.descripcion}
-                  type="text" name="descripcion" id="descripcion" onChange={formik.handleChange} />
-                <label htmlFor="precio_venta">Precio de venta</label>
-                <InputNumber
-                  value={formik.values.precio_venta ?? 0}
-                  name="precio_venta" id="precio_venta" onChange={
-                    (e) => {
-                      formik.setFieldValue("precio_venta", e.value);
-                    }
-                  } />
-                <label htmlFor="categorias">Categorias</label>
-                <MultiSelect value={formik.values.categorias}
-                  optionLabel="nombre"
-                  options={categorias}
-                  name="categorias" id="categorias" onChange={formik.handleChange} />
-              </div>
-              <button type="submit" className={`bg-${formik.values.id ? 'yellow' : 'green'}-500 p-2 text-white rounded-lg`}>{formik.values.id ? 'Editar' : 'Crear'}</button>
-            </div>
-          </form>
+              onClick={() => {
+                formik.resetForm();
+                setDialogArticulo(true);
+              }}
+            >
+              <SvgNuevo />
+            </button>
+
+            <button
+              className="bg-yellow-500 rounded-lg text-white p-2 disabled:bg-yellow-800"
+              disabled={selected == null}
+              onClick={() => {
+
+                formik.setValues({
+                  id: selected.id,
+                  nombre: selected?.nombre,
+                  descripcion: selected.descripcion,
+                  precio_venta: selected.precio_venta,
+                  empresa_id: id,
+                  categorias: selected.categorias,
+                });
+                setDialogArticulo(true);
+              }}
+            >
+              <SvgEditar />
+            </button>
+            <button
+              className="bg-red-500 rounded-lg text-white p-2 disabled:bg-red-800"
+              disabled={selected == null}
+              onClick={() => {
+                eliminar_articulo(selected);
+              }}
+            >
+              <SvgEliminar />
+            </button>
+            <button
+              className="bg-purple-500 rounded-lg text-white p-2 disabled:bg-purple-800"
+              disabled={selected == null}
+              onClick={() => {
+                setArticuloLotes(selected);
+              }}
+            >
+              <SvgLotes />
+            </button>
+          </div>
         </div>
         <DataTable value={articulos} emptyMessage="Vacio"
           selection={selected}
           onSelectionChange={(e) => {
             setSelected(e.value);
             console.log(e.value);
-            if (e.value != null) {
-              formik.setValues({
-                id: e.value?.id,
-                nombre: e.value?.nombre,
-                descripcion: e.value?.descripcion,
-                precio_venta: e.value?.precio_venta,
-                empresa_id: id,
-                categorias: e.value?.categorias,
-              });
-            }
-            else {
-              formik.resetForm();
-            }
+
           }}
           //Deselect
           metaKeySelection={false}
@@ -244,10 +279,14 @@ export default function () {
           <Column field="nombre" header="Nombre"></Column>
           <Column field="descripcion" header="Descripción"></Column>
           <Column field="precio_venta" header="Precio de venta"></Column>
-          <Column field="stock" header="Stock"></Column>
+          <Column field="stock"
+
+            body={(e: any) => {
+              return e.lotes.reduce((a: any, b: any) => a + b.stock, 0);
+            }}
+            header="Stock"></Column>
           <Column body={categorias_articulo} header="Categorias"></Column>
-          <Column body={eliminar} header="Acciones"></Column>
-          <Column body={lotes} header="Lotes"></Column>
+
         </DataTable>
       </div>
     </>
@@ -257,12 +296,34 @@ export default function () {
 export function lotes_render(articulo: any) {
   return <>
     <DataTable value={articulo.lotes} emptyMessage="Vacio">
-      <Column field="lote" header="Lote"></Column>
-      <Column field="fecha_ingreso" header="Fecha Ingreso"></Column>
-      <Column field="fecha_vencimiento" header="Fecha Vencimiento"></Column>
+      <Column field="nro_lote" header="Lote"></Column>
+      <Column field="fecha_ingreso"
+        body={(e: any) => {
+          return new Date(e.fecha_ingreso).toLocaleDateString('es-ES', { timeZone: 'UTC' });
+        }}
+        header="Fecha Ingreso"></Column>
+      <Column field="fecha_vencimiento"
+        body={(e: any) => {
+          if (e.fecha_vencimiento == null) {
+            return "No vence";
+          }
+          return new Date(e.fecha_vencimiento).toLocaleDateString('es-ES', { timeZone: 'UTC' });
+        }}
+        header="Fecha Vencimiento"></Column>
       <Column field="cantidad" header="Cantidad"></Column>
       <Column field="stock" header="Stock"></Column>
-      <Column field="estado" header="Estado"></Column>
+      <Column field="estado"
+        body={(e: any) => {
+          if (e.estado == "activo") {
+            return <div className="bg-green-500 p-1 rounded-lg text-white w-fit">
+              {e.estado}
+            </div>;
+          }
+          return <div className="bg-red-500 p-1 rounded-lg text-white w-fit">
+            {e.estado}
+          </div>;
+        }}
+        header="Estado"></Column>
     </DataTable>
   </>;
 }

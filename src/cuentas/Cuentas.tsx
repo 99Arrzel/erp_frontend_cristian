@@ -4,7 +4,7 @@ import { Dialog } from 'primereact/dialog';
 import { TreeTable } from 'primereact/treetable';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
-import { urlReporte } from '../home/Home';
+import { SvgEditar, SvgEliminar, SvgNuevo, SvgReporte, urlReporte } from '../home/Home';
 import { getId } from '../login/Login';
 import { baseUrl, baseUrlReports } from '../main';
 import TreeMaker from './TreeMaker';
@@ -216,7 +216,7 @@ export default function () {
               formik.setValues({ ...formik.values, nombre: '', padre_id: selectedNode?.data?.id ? selectedNode.data.id : null, id: null, empresa_id: Number(id) });
             }}
           >
-            Crear
+            <SvgNuevo />
           </button>
           <button className="bg-yellow-500 p-2 rounded-lg text-white disabled:bg-yellow-800"
             disabled={selectedNode && selectedNode.data.id ? false : true}
@@ -226,7 +226,7 @@ export default function () {
               formik.setValues({ ...formik.values, nombre: selectedNode?.data?.nombre, padre_id: selectedNode?.data?.padre_id, id: selectedNode?.data?.id, empresa_id: selectedNode?.data?.empresa_id });
             }}
           >
-            Editar
+            <SvgEditar />
           </button>
           <button className="bg-red-500 p-2 rounded-lg text-white disabled:bg-red-800"
             disabled={selectedNode && selectedNode.data.id ? false : true}
@@ -235,7 +235,7 @@ export default function () {
             }}
 
           >
-            Eliminar
+            <SvgEliminar />
           </button>
           <button className='bg-orange-500 p-2 disabled:bg-orange-800 rounded-lg text-white'
             onClick={
@@ -254,7 +254,7 @@ export default function () {
                 }), '_blank');
               }
             }
-          >Reporte Cuentas</button>
+          ><SvgReporte /></button>
 
         </div>
         <TreeTable value={tree} emptyMessage="Sin cuentas"

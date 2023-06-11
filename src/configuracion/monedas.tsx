@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { fetchMonedas } from "../home/Home";
+import { SvgNuevo, fetchMonedas } from "../home/Home";
 import { Dropdown } from 'primereact/dropdown';
 import { useFormik } from "formik";
 import { InputNumber } from 'primereact/inputnumber';
@@ -149,7 +149,7 @@ export default function Monedas() {
                 value={formik.values.cambio} onValueChange={(e) => {
                   formik.setFieldValue("cambio", e.value);
                 }} />
-              <button type="submit" className="bg-green-500 p-3.5 rounded-lg text-white">Guardar</button>
+              <button type="submit" className="bg-green-500  p-2.5 rounded-lg text-white"><SvgNuevo /></button>
             </div>
 
           </div>

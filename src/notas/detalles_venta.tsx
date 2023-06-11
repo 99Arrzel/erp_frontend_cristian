@@ -5,6 +5,7 @@ import { Toast } from "primereact/toast";
 import { InputText } from "primereact/inputtext";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
+import { SvgCerrar, SvgVolverAtras } from "../home/Home";
 
 export function GetNotaVenta({ id }: { id: number; }) {
   return new Promise((resolve, reject) => {
@@ -87,7 +88,7 @@ export default function DetallesVenta() {
 
               }}
 
-            >Anular</button>
+            ><SvgCerrar mensaje="Anular nota de venta" /></button>
           </div>
           <div>
             <button className="mt-6 bg-purple-500 p-2 rounded-lg text-white"
@@ -95,7 +96,7 @@ export default function DetallesVenta() {
               onClick={() => {
                 navigate(`/empresa/${id}/nota_venta/`);
               }}
-            >Volver</button>
+            ><SvgVolverAtras /></button>
           </div>
         </div>
         <div className="bg-gray-100 p-2 mt-1">

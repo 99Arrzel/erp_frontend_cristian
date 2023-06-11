@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import { GetEmpresa } from "../home/Menu";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
+import { SvgVolverAtras } from "../home/Home";
 
 export function DetalleComprobante() {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ export function DetalleComprobante() {
             onClick={() => {
               navigate(`/empresa/${id}/comprobantes`);
             }}
-          >Volver atrás</button>
+          ><SvgVolverAtras /></button>
         </div>
 
         <div>

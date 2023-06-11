@@ -6,7 +6,7 @@ import { Toast } from "primereact/toast";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { set_estado, set_fecha_fin, set_fecha_inicio } from "../gestion/Gestion";
-import { urlReporte } from "../home/Home";
+import { SvgEditar, SvgEliminar, SvgNuevo, SvgPeriodos, SvgReporte, SvgVolverAtras, urlReporte } from "../home/Home";
 import { getId } from "../login/Login";
 import { baseUrl, baseUrlReports } from "../main";
 export function cerrarPeriodo(id: number) {
@@ -348,7 +348,7 @@ export default function () {
             }}
             disabled={gestion?.estado ? false : true}
           >
-            Crear
+            <SvgNuevo />
           </button>
           <button className="bg-yellow-500 p-2 rounded-lg disabled:bg-yellow-800"
             disabled={selectedPeriod && selectedPeriod.estado ? false : true}
@@ -364,7 +364,7 @@ export default function () {
               setDisplayDialog(true);
             }}
           >
-            Editar
+            <SvgEditar />
           </button>
           <button className="bg-red-500 p-2 rounded-lg disabled:bg-red-800"
             disabled={selectedPeriod && selectedPeriod.estado ? false : true}
@@ -372,7 +372,7 @@ export default function () {
               setEliminarDialogVisibility(true);
             }}
           >
-            Eliminar
+            <SvgEliminar />
           </button>
 
           <button className='bg-orange-500 p-2 disabled:bg-orange-800 rounded-lg'
@@ -392,7 +392,10 @@ export default function () {
                 }), '_blank');
               }
             }
-          >Reporte Periodos</button>
+          >
+            <SvgReporte />
+
+          </button>
           <button className=" bg-blue-500 p-2 rounded-lg disabled:bg-blue-800 ml-auto"
             onClick={
               () => {
@@ -400,7 +403,7 @@ export default function () {
               }
             }
           >
-            Volver a gestiones
+            <SvgVolverAtras mensaje="Volver a gestiones" />
           </button>
         </div>
         <DataTable value={gestion?.periodos} emptyMessage="Sin periodos"

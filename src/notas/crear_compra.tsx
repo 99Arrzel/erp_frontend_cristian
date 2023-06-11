@@ -9,6 +9,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { Toast } from "primereact/toast";
 import { baseUrl } from "../main";
 import { useParams } from "react-router";
+import { SvgEditar, SvgEliminar, SvgNuevo } from "../home/Home";
 
 type Lotes = {
   articulo_id: number,
@@ -133,7 +134,7 @@ export default function CrearCompra() {
             setArticulos([...articulos, data.articulo]);
             formik.setFieldValue("productos", formik.values.productos.filter((producto) => producto.articulo.id != data.articulo.id));
           }}
-        >Eliminar</button>
+        ><SvgEliminar /></button>
 
         {/* Eeditar */}
         <button
@@ -147,7 +148,7 @@ export default function CrearCompra() {
             setArticulos([...articulos, data.articulo]);
             setIsEditing(true);
           }}
-        >Editar</button>
+        ><SvgEditar /></button>
       </>
     );
   };
@@ -232,7 +233,7 @@ export default function CrearCompra() {
             <button
               className="bg-green-500 p-2 text-white rounded-lg mt-6"
               type="submit"
-            >Crear Nota de Compra</button>
+            ><SvgNuevo mensaje="Crear nota de compra" /> </button>
           </div>
         </form>
         <div className="bg-gray-100 p-2 mt-1">
@@ -272,7 +273,7 @@ export default function CrearCompra() {
               <button className={`mt-6 bg-${isEditing ? 'yellow' : 'green'}-500 p-2 rounded-lg text-white`}
                 type="submit"
 
-              >{isEditing ? 'Editar' : 'Agregar'}</button>
+              >{isEditing ? <SvgEditar mensaje="Editar producto" /> : <SvgNuevo mensaje="Agregar producto" />}</button>
             </div>
           </form>
           <DataTable value={formik.values.productos} emptyMessage="Agrega un detalle">

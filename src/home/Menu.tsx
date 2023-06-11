@@ -67,16 +67,28 @@ export default function Menu() {
   }, []);
   const items = [
     {
-      label: 'Gestión',
+      label: 'Gestiones',
       command: () => {
         navigate(`/empresa/${id}/gestiones`);
       }
     },
     {
-      label: 'Articulos',
-      command: () => {
-        navigate(`/empresa/${id}/articulos`);
-      }
+      label: 'Bienes',
+      items: [
+        {
+          label: 'Articulos',
+          command: () => {
+            navigate(`/empresa/${id}/articulos`);
+          }
+        },
+        {
+          label: 'Categorias',
+          command: () => {
+            navigate(`/empresa/${id}/categorias`);
+          }
+        },
+      ],
+
     },
     {
       label: 'Notas',
@@ -93,18 +105,6 @@ export default function Menu() {
       }]
     },
     {
-      label: 'Reportes',
-      command: () => {
-        navigate(`/empresa/${id}/reportes`);
-      }
-    },
-    {
-      label: 'Categorias',
-      command: () => {
-        navigate(`/empresa/${id}/categorias`);
-      }
-    },
-    {
 
       label: "Contabilidad",
       items: [{
@@ -118,7 +118,12 @@ export default function Menu() {
         command: () => {
           navigate(`/empresa/${id}/comprobantes`);
         }
-      }]
+      }, {
+        label: 'Reportes',
+        command: () => {
+          navigate(`/empresa/${id}/reportes`);
+        }
+      },]
     }, {
       label: 'Configuración',
       items: [{

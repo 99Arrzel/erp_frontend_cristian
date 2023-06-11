@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import { baseUrl, baseUrlReports } from "../main";
 import { Toast } from 'primereact/toast';
 import { getId } from "../login/Login";
-import { urlReporte } from "../home/Home";
+import { SvgCerrar, SvgEditar, SvgEliminar, SvgNuevo, SvgPeriodos, SvgReporte, urlReporte } from "../home/Home";
 
 export function deleteGestion({ id }: { id: number; }) {
   return new Promise((resolve, reject) => {
@@ -282,7 +282,11 @@ export default function () {
                 className="border-2 border-gray-300 rounded-lg p-2"
                 value={formik.values.fecha_fin}
               />
-              <button className="bg-green-500 p-2 rounded-lg text-white" type="submit" disabled={formik.isSubmitting}>Guardar</button>
+              <div>
+                <button className="bg-green-500  p-2 rounded-lg text-white" type="submit" disabled={formik.isSubmitting}>
+                  <SvgNuevo mensaje={vDialogHeader} />
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -297,7 +301,8 @@ export default function () {
               formik.resetForm();
             }}
           >
-            Crear
+            <SvgNuevo />
+
           </button>
           <button className="bg-yellow-500 p-2 rounded-lg disabled:bg-yellow-800"
             disabled={selectedGestion && selectedGestion.estado ? false : true}
@@ -312,7 +317,7 @@ export default function () {
               formik.setFieldValue("fecha_inicio", fecha_inicio.toISOString().split("T")[0]);
               formik.setFieldValue("fecha_fin", fecha_fin.toISOString().split("T")[0]);
             }}>
-            Editar
+            <SvgEditar />
           </button>
           <button className="bg-red-500 p-2 rounded-lg disabled:bg-red-800"
             disabled={selectedGestion && selectedGestion.estado ? false : true}
@@ -320,14 +325,14 @@ export default function () {
               setvDialogEliminar(true);
             }}
           >
-            Eliminar
+            <SvgEliminar />
           </button>
           <button className="bg-purple-500 p-2 rounded-lg disabled:bg-purple-800" disabled={selectedGestion && selectedGestion.estado ? false : true}
             onClick={() => {
               setvDialogCerrar(true);
             }}
           >
-            Cerrar
+            <SvgCerrar />
           </button>
           <button className='bg-orange-500 p-2 disabled:bg-orange-800 rounded-lg'
             onClick={
@@ -346,14 +351,16 @@ export default function () {
                 }), '_blank');
               }
             }
-          >Reporte Gestiones</button>
+          >
+            <SvgReporte />
+          </button>
           <button className="bg-blue-500 p-2 rounded-lg disabled:bg-blue-800 ml-auto" disabled={selectedGestion ? false : true}
             onClick={() => {
               ///empresa/:id/gestiones/:gestion_id/periodos
               navigate(`/empresa/${id}/gestiones/${selectedGestion.id}/periodos`);
             }}
           >
-            Periodos
+            <SvgPeriodos />
           </button>
         </div>
         <DataTable value={gestiones} selectionMode="single"

@@ -9,6 +9,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { useNavigate, useParams } from "react-router";
 import { baseUrl } from "../main";
 import { Toast } from "primereact/toast";
+import { SvgCerrar, SvgVolverAtras } from "../home/Home";
 
 export function GetNotaCompra({ id }: { id: number; }) {
   return new Promise((resolve, reject) => {
@@ -118,7 +119,11 @@ export default function DetallesCompra() {
 
               }}
 
-            >Anular</button>
+            >
+              <SvgCerrar
+                mensaje="Anular nota de compra"
+              />
+            </button>
           </div>
           <div>
             <button className="mt-6 bg-purple-500 p-2 rounded-lg text-white"
@@ -126,7 +131,10 @@ export default function DetallesCompra() {
               onClick={() => {
                 navigate(`/empresa/${id}/nota_compra/`);
               }}
-            >Volver</button>
+            >
+              <SvgVolverAtras />
+
+            </button>
           </div>
         </div>
         <div className="bg-gray-100 p-2 mt-1">

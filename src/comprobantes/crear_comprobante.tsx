@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { GetEmpresa } from "../home/Menu";
 import { useNavigate, useParams } from "react-router";
 import { crearComprobante } from "./comprobantes";
+import { SvgEditar, SvgNuevo, SvgVolverAtras } from "../home/Home";
 function CrearComprobante() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -218,7 +219,7 @@ function CrearComprobante() {
             onClick={() => {
               navigate(`/empresa/${id}/comprobantes`);
             }}
-          >Volver atrás</button>
+          ><SvgVolverAtras /></button>
         </div>
         <div className="flex gap-2 flex-wrap">
           <div className="flex flex-col">
@@ -359,7 +360,7 @@ function CrearComprobante() {
                   formikDetalle.handleSubmit();
                 }}
               >
-                {editar ? 'Editar Detalle' : 'Añadir Detalle'}
+                {editar ? <SvgEditar /> : <SvgNuevo mensaje="Añadir detalle" />}
               </button>
             </div>
           </div>
@@ -388,7 +389,7 @@ function CrearComprobante() {
               formik.handleSubmit();
             }}
           >
-            Guardar Comprobante
+            <SvgNuevo mensaje="Crear comprobante" />
           </button>
         </div>
       </div>

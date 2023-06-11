@@ -6,6 +6,7 @@ import { fetchCuentasPorEmpresa } from "../cuentas/Cuentas";
 import { InputSwitch } from "primereact/inputswitch";
 import { Dropdown } from "primereact/dropdown";
 import { Toast } from "primereact/toast";
+import { SvgNuevo } from "../home/Home";
 
 export function GetIntegracion({ id }: { id: number; }) {
   return new Promise((resolve, reject) => {
@@ -323,7 +324,7 @@ export default function () {
                 } emptyMessage="No hay cuentas de último nivel" />
             </div>
           </div>
-          <button className="bg-green-500 p-2 rounded-lg text-white mt-2" type="submit">Guardar</button>
+          <button className="bg-green-500 p-2 rounded-lg text-white mt-2" type="submit"><SvgNuevo mensaje="Guardar integración" /></button>
         </div>
       </form >
     </div >

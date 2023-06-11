@@ -10,6 +10,7 @@ import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { GetUltimoNumero } from "./crear_compra";
 import { baseUrl } from "../main";
+import { SvgEditar, SvgEliminar, SvgNuevo } from "../home/Home";
 
 
 
@@ -161,7 +162,7 @@ export default function CrearVenta() {
             formik.setFieldValue("productos", formik.values.productos.filter((producto: any) => producto.internal_id != data.internal_id));
 
           }}
-        >Eliminar</button>
+        ><SvgEliminar /></button>
 
         {/* Eeditar */}
         <button
@@ -178,7 +179,7 @@ export default function CrearVenta() {
 
 
           }}
-        >Editar</button>
+        ><SvgEditar /></button>
       </>
     );
   };
@@ -245,7 +246,7 @@ export default function CrearVenta() {
             <button
               className="bg-green-500 p-2 text-white rounded-lg mt-6"
               type="submit"
-            >Crear Nota de Venta</button>
+            ><SvgNuevo mensaje="Crear nota de venta" /></button>
           </div>
         </form>
         <div className="bg-gray-100 p-2 mt-1">
@@ -328,7 +329,7 @@ export default function CrearVenta() {
               <button className={`mt-6 bg-${isEditing ? 'yellow' : 'green'}-500 p-2 rounded-lg text-white`}
                 type="submit"
 
-              >{isEditing ? 'Editar' : 'Agregar'}</button>
+              >{isEditing ? <SvgEditar mensaje="Editar producto" /> : <SvgNuevo mensaje="Crear producto" />}</button>
             </div>
           </form>
           <DataTable value={formik.values.productos} emptyMessage="Agrega un detalle">

@@ -6,7 +6,7 @@ import { fetchGestionPorEmpresa } from "../gestion/Gestion";
 import { Dropdown } from "primereact/dropdown";
 import { InputSwitch } from "primereact/inputswitch";
 import { TabView, TabPanel } from 'primereact/tabview';
-import { fetchMonedas, urlReporte } from "../home/Home";
+import { SvgReporte, fetchMonedas, urlReporte } from "../home/Home";
 import { baseUrlReports } from "../main";
 
 export default function Reportes() {
@@ -115,7 +115,7 @@ export default function Reportes() {
                   }), '_blank');
                 }
               }
-            >Ver Reporte</button>
+            ><SvgReporte /></button>
           </div>
         </TabPanel>
         <TabPanel header='Libro Diario' prevButton={""} nextButton={""} closeIcon={""}>
@@ -223,7 +223,7 @@ export default function Reportes() {
                   }), '_blank');
                 }
               }
-            >Ver Reporte</button>
+            ><SvgReporte /></button>
           </div>
         </TabPanel>
         <TabPanel header='Libro Mayor' prevButton={""} nextButton={""} closeIcon={""}>
@@ -331,7 +331,7 @@ export default function Reportes() {
                   }), '_blank');
                 }
               }
-            >Ver Reporte</button>
+            ><SvgReporte /></button>
           </div>
         </TabPanel>
         <TabPanel header='Sumas y Saldos' prevButton={""} nextButton={""} closeIcon={""}>
@@ -383,6 +383,7 @@ export default function Reportes() {
               </div>
 
             </div>
+
             <button
               disabled={!selectedGestionR_SS || !selectedMonedaR_SS}
               className="bg-blue-500  text-white font-bold py-2 px-4 rounded disabled:bg-blue-800"
@@ -401,7 +402,7 @@ export default function Reportes() {
                   }), '_blank');
                 }
               }
-            >Ver Reporte</button>
+            ><SvgReporte /></button>
           </div>
         </TabPanel>
 

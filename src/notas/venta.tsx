@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { GetLista } from "./compra";
+import { SvgDetalles, SvgNuevo } from "../home/Home";
 
 
 
@@ -59,7 +60,7 @@ export default function NotaVenta() {
                   navigate(`/empresa/${id}/nota_venta/crear`);
                 }}
               >
-                Crear
+                <SvgNuevo />
               </button>
 
               <button className="bg-purple-500 p-2 rounded-lg disabled:bg-purple-800"
@@ -69,7 +70,7 @@ export default function NotaVenta() {
                 }
                 }
                 disabled={!selected}>
-                Detalles
+                <SvgDetalles />
               </button>
             </div>
           </div>

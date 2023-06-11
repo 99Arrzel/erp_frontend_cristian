@@ -7,6 +7,7 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { useFormik } from "formik";
+import { SvgEditar, SvgEliminar, SvgNuevo } from "../home/Home";
 
 export function GetCategorias({ id }: { id: number; }) {
   return new Promise((resolve, reject) => {
@@ -129,7 +130,7 @@ export default function () {
           }}
           type="submit"
         >
-          {`${selectedNode?.data.id ? `Crear subcategoría de ${selectedNode?.data.nombre}` : "Crear categoría"}`}
+          <SvgNuevo mensaje={`${selectedNode?.data.id ? `Crear subcategoría de ${selectedNode?.data.nombre}` : "Crear categoría"}`} />
         </button>
         <button
           className="bg-yellow-500 my-2 p-2 text-white rounded-lg disabled:bg-yellow-800"
@@ -185,7 +186,7 @@ export default function () {
           }}
           type="button"
         >
-          Editar la categoria
+          <SvgEditar />
         </button>
         <button
           className="bg-red-500 my-2 p-2 text-white rounded-lg disabled:bg-red-800"
@@ -237,7 +238,7 @@ export default function () {
           }}
           type="button"
         >
-          Eliminar
+          <SvgEliminar />
         </button>
       </div>
       <TreeTable value={tree} emptyMessage="Sin categorias"

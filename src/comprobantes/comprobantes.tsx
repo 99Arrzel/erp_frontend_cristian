@@ -6,7 +6,7 @@ import { Column } from "primereact/column";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
 import { baseUrl, baseUrlReports } from "../main";
-import { urlReporte } from "../home/Home";
+import { SvgCerrar, SvgDetalles, SvgNuevo, SvgReporte, urlReporte } from "../home/Home";
 
 export function crearComprobante(v: any) {
   return fetch(baseUrl + '/api/comprobante/crear', {
@@ -175,32 +175,32 @@ export default function () {
 
           }
           }
-        >Crear</button>
+        ><SvgNuevo /></button>
         <button className="bg-blue-500 p-2 rounded-lg text-white disabled:bg-blue-800"
           disabled={selectedComprobante == null}
           onClick={() => {
             //navigat to ="/empresa/:id/comprobantes/detalle/:id_comprobante
             navigate(`/empresa/${id}/comprobantes/detalle/${selectedComprobante?.id}`);
           }}
-        >Ver</button>
+        ><SvgDetalles /></button>
         <button className="bg-yellow-500 p-2 rounded-lg text-white disabled:bg-yellow-800"
           disabled={selectedComprobante == null || selectedComprobante?.estado == "Anulado" || selectedComprobante?.estado == "Cerrado"}
           onClick={() => {
             anular(selectedComprobante.id);
           }}
-        >Anular</button>
+        ><SvgCerrar mensaje="Anular" /></button>
         <button className="bg-red-500 p-2 rounded-lg text-white disabled:bg-red-800"
           disabled={selectedComprobante == null || selectedComprobante?.estado == "Anulado" || selectedComprobante?.estado == "Cerrado"}
           onClick={() => {
             cerrar(selectedComprobante.id);
           }}
-        >Cerrar</button>
+        ><SvgCerrar /></button>
         <button className="bg-purple-500 p-2 rounded-lg text-white disabled:bg-purple-800"
           disabled={selectedComprobante == null}
           onClick={() => {
             verComprobante(selectedComprobante.id);
           }}
-        >Ver informe de comprobante</button>
+        ><SvgReporte /></button>
       </div>
       <DataTable value={empresa?.comprobantes} loading={empresa == null} emptyMessage="Sin comprobantes" selectionMode="single"
         metaKeySelection={false}

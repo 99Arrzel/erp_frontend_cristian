@@ -5,6 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { useNavigate, useParams } from "react-router";
 import { baseUrl } from "../main";
 import { useEffect, useState } from "react";
+import { SvgDetalles, SvgNuevo } from "../home/Home";
 export function GetLista({ id, tipo }: { id: number, tipo: 'compra' | 'venta'; }) {
   return new Promise((resolve, reject) => {
     const token = localStorage.getItem("token");
@@ -66,7 +67,7 @@ export default function NotaCompra() {
                   navigate(`/empresa/${id}/nota_compra/crear`);
                 }}
               >
-                Crear
+                <SvgNuevo />
               </button>
 
               <button className="bg-purple-500 p-2 rounded-lg disabled:bg-purple-800"
@@ -76,7 +77,7 @@ export default function NotaCompra() {
                 }
                 }
                 disabled={!selected}>
-                Detalles
+                <SvgDetalles />
               </button>
             </div>
           </div>
