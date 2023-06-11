@@ -124,24 +124,7 @@ export default function DetallesCompra() {
                 mensaje="Anular nota de compra"
               />
             </button>
-            <button className="bg-blue-500 p-2 text-white"
-              onClick={() => {
-                window.open(urlReporte({
-                  valores: {
-                    sessionDecorator: "no",
-                    chrome: "false",
-                    decorate: "no",
-                    toolbar: "false",
-                    j_username: 'jasperadmin', j_password: 'bitnami',
-                    id_nota: id ?? "",
-                    token: localStorage.getItem("token") ?? ""
-                  }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2FNotaCompraReport&standAlone=true`
-                }), '_blank');
-              }
-              }
-            >
-              <SvgReporte />
-            </button>
+
           </div>
           <div>
             <button className="mt-6 bg-purple-500 p-2 rounded-lg text-white"
@@ -152,6 +135,26 @@ export default function DetallesCompra() {
             >
               <SvgVolverAtras />
 
+            </button>
+          </div>
+          <div>
+            <button className="bg-blue-500 p-2 text-white rounded-lg ml-2"
+              onClick={() => {
+                window.open(urlReporte({
+                  valores: {
+                    sessionDecorator: "no",
+                    chrome: "false",
+                    decorate: "no",
+                    toolbar: "false",
+                    j_username: 'jasperadmin', j_password: 'bitnami',
+                    id_nota: id ?? "",
+                    token: "Bearer " + localStorage.getItem("token") ?? ""
+                  }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2FNotaCompraReport&standAlone=true`
+                }), '_blank');
+              }
+              }
+            >
+              <SvgReporte />
             </button>
           </div>
         </div>
