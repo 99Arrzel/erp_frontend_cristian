@@ -138,7 +138,7 @@ export default function DetallesCompra() {
             </button>
           </div>
           <div>
-            <button className="bg-blue-500 p-2 text-white rounded-lg ml-2"
+            <button className="bg-blue-500 p-2 text-white rounded-lg mt-6"
               onClick={() => {
                 window.open(urlReporte({
                   valores: {
