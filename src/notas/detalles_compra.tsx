@@ -147,7 +147,7 @@ export default function DetallesCompra() {
                     decorate: "no",
                     toolbar: "false",
                     j_username: 'jasperadmin', j_password: 'bitnami',
-                    id_nota: id ?? "",
+                    id_nota: id_nota_compra ?? "",
                     token: "Bearer " + localStorage.getItem("token") ?? ""
                   }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2FNotaCompraReport&standAlone=true`
                 }), '_blank');
