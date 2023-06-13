@@ -33,7 +33,10 @@ export default function Reportes() {
   const [selectedMonedaR_BI, setSelectedMonedaR_BI] = useState<any>(null); //Para la gestion seleccionada siempre
   const [selectedGestionR_SS, setSelectedGestionR_SS] = useState<any>(null);
   const [selectedMonedaR_SS, setSelectedMonedaR_SS] = useState<any>(null); //Para la gestion seleccionada siempre
-
+  const [selectedGestionR_BG, setSelectedGestionR_BG] = useState<any>(null);
+  const [selectedMonedaR_BG, setSelectedMonedaR_BG] = useState<any>(null); //Para la gestion seleccionada siempre
+  const [selectedGestionR_ES, setSelectedGestionR_ES] = useState<any>(null);
+  const [selectedMonedaR_ES, setSelectedMonedaR_ES] = useState<any>(null); //Para la gestion seleccionada siempre
 
   const [selectedGestionR_LD, setSelectedGestionR_LD] = useState<any>(null);
   const [selectedPeriodoR_LD, setSelectedPeriodoR_LD] = useState<any>(null); //Para la gestion seleccionada siempre
@@ -405,7 +408,150 @@ export default function Reportes() {
             ><SvgReporte /></button>
           </div>
         </TabPanel>
+        <TabPanel header='Balance General' prevButton={""} nextButton={""} closeIcon={""}>
+          <div className="bg-gray-200 rounded-lg p-2 flex gap-4 justify-evenly">
+            <div>
+              <h2 className="text-center text-2xl ">Reportes Balance General</h2>
+              <div>
+                <p>Gestion</p>
+                <Dropdown
+                  value={selectedGestionR_BG}
+                  optionLabel="nombre"
+                  onChange={(e) => {
+                    setSelectedGestionR_BG(e.value);
+                  }}
+                  options={gestiones}
+                  valueTemplate={(option) => {
+                    console.log(option, "Option value");
+                    return (
+                      <div>
+                        <span>{option?.nombre} - {new Date(option?.fecha_inicio).toLocaleDateString()} | {new Date(option?.fecha_fin).toLocaleDateString()}</span>
+                      </div>
+                    );
+                  }}
 
+                  itemTemplate={(option) => {
+                    console.log(option, "Option");
+                    return (
+                      <div>
+                        <span>{option?.nombre} - {new Date(option?.fecha_inicio).toLocaleDateString()} | {new Date(option?.fecha_fin).toLocaleDateString()}</span>
+
+                      </div>);
+                  }}
+                />
+              </div>
+
+              <div>
+                <p>Moneda</p>
+                <p>(Si la moneda seleecionada no coincide con el cambio registrado para el comprobante, se traera el valor de la moneda primaria)</p>
+                <Dropdown
+                  disabled={!selectedGestionR_BG}
+                  value={selectedMonedaR_BG}
+                  optionLabel="nombre"
+                  onChange={(e) => {
+                    setSelectedMonedaR_BG(e.value);
+                  }}
+                  options={monedas}
+                />
+
+              </div>
+
+            </div>
+
+            <button
+              disabled={!selectedGestionR_BG || !selectedMonedaR_BG}
+              className="bg-blue-500  text-white font-bold py-2 px-4 rounded disabled:bg-blue-800"
+              onClick={
+                () => {
+                  window.open(urlReporte({
+                    valores: {
+                      sessionDecorator: "no",
+                      chrome: "false",
+                      decorate: "no",
+                      toolbar: "false",
+                      j_username: 'jasperadmin', j_password: 'bitnami',
+                      id_gestion: selectedGestionR_BG?.id,
+                      id_moneda: selectedMonedaR_BG?.id,
+                      token: "Bearer " + localStorage.getItem("token") ?? ""
+                    }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2FBalanceGeneralReport&standAlone=true`
+                  }), '_blank');
+                }
+              }
+            ><SvgReporte /></button>
+          </div>
+        </TabPanel>
+        <TabPanel header='Estado de Resultado' prevButton={""} nextButton={""} closeIcon={""}>
+          <div className="bg-gray-200 rounded-lg p-2 flex gap-4 justify-evenly">
+            <div>
+              <h2 className="text-center text-2xl ">Reportes Estado de Resultado</h2>
+              <div>
+                <p>Gestion</p>
+                <Dropdown
+                  value={selectedGestionR_ES}
+                  optionLabel="nombre"
+                  onChange={(e) => {
+                    setSelectedGestionR_ES(e.value);
+                  }}
+                  options={gestiones}
+                  valueTemplate={(option) => {
+                    console.log(option, "Option value");
+                    return (
+                      <div>
+                        <span>{option?.nombre} - {new Date(option?.fecha_inicio).toLocaleDateString()} | {new Date(option?.fecha_fin).toLocaleDateString()}</span>
+                      </div>
+                    );
+                  }}
+
+                  itemTemplate={(option) => {
+                    console.log(option, "Option");
+                    return (
+                      <div>
+                        <span>{option?.nombre} - {new Date(option?.fecha_inicio).toLocaleDateString()} | {new Date(option?.fecha_fin).toLocaleDateString()}</span>
+
+                      </div>);
+                  }}
+                />
+              </div>
+
+              <div>
+                <p>Moneda</p>
+                <p>(Si la moneda seleecionada no coincide con el cambio registrado para el comprobante, se traera el valor de la moneda primaria)</p>
+                <Dropdown
+                  disabled={!selectedGestionR_ES}
+                  value={selectedMonedaR_ES}
+                  optionLabel="nombre"
+                  onChange={(e) => {
+                    setSelectedMonedaR_ES(e.value);
+                  }}
+                  options={monedas}
+                />
+
+              </div>
+
+            </div>
+
+            <button
+              disabled={!selectedGestionR_ES || !selectedMonedaR_ES}
+              className="bg-blue-500  text-white font-bold py-2 px-4 rounded disabled:bg-blue-800"
+              onClick={
+                () => {
+                  window.open(urlReporte({
+                    valores: {
+                      sessionDecorator: "no",
+                      chrome: "false",
+                      decorate: "no",
+                      toolbar: "false",
+                      j_username: 'jasperadmin', j_password: 'bitnami',
+                      id_gestion: selectedGestionR_ES?.id,
+                      id_moneda: selectedMonedaR_ES?.id,
+                      token: "Bearer " + localStorage.getItem("token") ?? ""
+                    }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2FEstadoDeResultadosCR&standAlone=true`
+                  }), '_blank');
+                }
+              }
+            ><SvgReporte /></button>
+          </div>
+        </TabPanel>
       </TabView >
     </>
   );

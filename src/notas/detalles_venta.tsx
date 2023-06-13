@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { baseUrl } from "../main";
+import { baseUrl, baseUrlReports } from "../main";
 import { useNavigate, useParams } from "react-router";
 import { Toast } from "primereact/toast";
 import { InputText } from "primereact/inputtext";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { SvgCerrar, SvgVolverAtras } from "../home/Home";
+import { SvgCerrar, SvgReporte, SvgVolverAtras, urlReporte } from "../home/Home";
 
 export function GetNotaVenta({ id }: { id: number; }) {
   return new Promise((resolve, reject) => {
@@ -97,6 +97,25 @@ export default function DetallesVenta() {
                 navigate(`/empresa/${id}/nota_venta/`);
               }}
             ><SvgVolverAtras /></button>
+          </div>
+          <div>
+            <button className="bg-blue-500 p-2 text-white rounded-lg mt-6"
+              onClick={() => {
+                window.open(urlReporte({
+                  valores: {
+                    sessionDecorator: "no",
+                    chrome: "false",
+                    decorate: "no",
+                    toolbar: "false",
+                    j_username: 'jasperadmin', j_password: 'bitnami',
+                    id_nota: id_nota_venta ?? "",
+                    token: "Bearer " + localStorage.getItem("token") ?? ""
+                  }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2FNotaVentaReport&standAlone=true`
+                }), '_blank');
+              }}
+            >
+              <SvgReporte />
+            </button>
           </div>
         </div>
         <div className="bg-gray-100 p-2 mt-1">
