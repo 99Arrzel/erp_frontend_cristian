@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { GetArticulosConLote } from "./venta";
 import { Toast } from "primereact/toast";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { useFormik } from "formik";
@@ -18,6 +18,7 @@ export default function CrearVenta() {
   const [articulos, setArticulos] = useState<any[]>([]);
   const [ultimoNumero, setUltimoNumero] = useState(0);
   const { id } = useParams();
+  const navigate = useNavigate();
   useEffect(() => {
     GetArticulosConLote({ id: Number(id) }).then((data: any) => {
       console.log(data);
@@ -68,11 +69,15 @@ export default function CrearVenta() {
           )
         })
       })
-        .then((res) => {
+        .then(async (res) => {
           if (res.ok) {
             toast.current?.show({ severity: 'success', summary: 'Success', detail: 'Nota de venta creada' });
             formik.resetForm();
-            return res.json();
+
+            let asd = await res.json();
+            //navigate(`/empresa/${id}/comprobantes`)
+            //http://localhost:4173/empresa/1/nota_venta/detalles/35
+            navigate(`/empresa/${id}/nota_venta/detalles/${asd.id}`);
           }
           else {
             toast.current?.show({ severity: 'error', summary: 'Error', detail: 'Error al crear nota de venta' });
@@ -262,6 +267,7 @@ export default function CrearVenta() {
                     formikDetalles.setFieldValue("articulo", e.value);
                     formikDetalles.setFieldValue("lote", null);
                     if (e.value.lotes?.length == 1) {
+
                       formikDetalles.setFieldValue("lote", e.value.lotes[0]);
                       formikDetalles.setFieldValue("precio", e.value.lotes[0].precio_compra);
                     }
@@ -277,7 +283,7 @@ export default function CrearVenta() {
                     <div className="flex gap-1">
                       <p>Lote:{option?.nro_lote} - Stock:{option?.stock}</p>
                       <p>- Vence: {(new Date(option?.fecha_vencimiento)).toLocaleDateString('es-ES')}</p>
-                      <p>- Precio: {option?.precio_compra}</p>
+                      <p>- Precio: {option?.articulo.precio_venta}</p>
                     </div>
                   );
                 }}
@@ -286,7 +292,7 @@ export default function CrearVenta() {
                     <div className="flex gap-1 ">
                       <p>Lote:{option?.nro_lote} - Stock:{option?.stock}</p>
                       <p>- Vence: {(new Date(option?.fecha_vencimiento)).toLocaleDateString('es-ES')}</p>
-                      <p>- Precio: {option?.precio_compra}</p>
+                      <p>- Precio: {option?.articulo.precio_venta}</p>
                     </div>
                   );
                 }}
@@ -295,8 +301,9 @@ export default function CrearVenta() {
                 className="w-80"
                 options={lotes_filtrados()} name="lote" onChange={
                   (e) => {
+                    console.log(e.value);
                     formikDetalles.setFieldValue("lote", e.value);
-                    formikDetalles.setFieldValue("precio", e.value?.precio_compra);
+                    formikDetalles.setFieldValue("precio", e.value?.articulo.precio_venta);
                   }
                 } optionLabel="nro_lote" />
             </div>
@@ -335,9 +342,9 @@ export default function CrearVenta() {
           <DataTable value={formik.values.productos} emptyMessage="Agrega un detalle">
             <Column field="articulo.nombre" header="Articulo"></Column>
             <Column field="lote.nro_lote" header="Lote"></Column>
-            <Column field="cantidad" header="Cantidad"></Column>
-            <Column field="precio" header="Precio"></Column>
-            <Column field="subtotal" header="Subtotal"></Column>
+            <Column align={"right"} field="cantidad" header="Cantidad"></Column>
+            <Column align={"right"} field="precio" header="Precio"></Column>
+            <Column align={"right"} field="subtotal" header="Subtotal"></Column>
             <Column body={acciones} header="Acciones"></Column>
           </DataTable>
         </div>

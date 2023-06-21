@@ -8,6 +8,7 @@ import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { useFormik } from "formik";
 import { SvgEditar, SvgEliminar, SvgNuevo } from "../home/Home";
+import { Dialog } from "primereact/dialog";
 
 export function GetCategorias({ id }: { id: number; }) {
   return new Promise((resolve, reject) => {
@@ -87,6 +88,7 @@ export default function () {
             detail: "Se ha creado la categoría",
             life: 3000,
           });
+          setDialogCrear(false);
         })
         .catch((err) => {
           err.text().then((errorMessage: any) => {
@@ -102,10 +104,11 @@ export default function () {
     },
   });
   const toast = useRef<Toast>(null);
+  const [dialogCrear, setDialogCrear] = useState(false);
+  const [dialogEdit, setDialogEdit] = useState(false);
   return <>
-    <Toast ref={toast} />
-    <div>
-      <div className=" flex gap-2 items-end m-4">
+    <Dialog header="Crear categoría" visible={dialogCrear} onHide={() => setDialogCrear(false)}>
+      <div className=" flex gap-2 flew-wrap items-end m-4 w-full">
         <div className="flex flex-col">
           <p>Nombre</p>
           <InputText
@@ -132,6 +135,27 @@ export default function () {
         >
           <SvgNuevo mensaje={`${selectedNode?.data.id ? `Crear subcategoría de ${selectedNode?.data.nombre}` : "Crear categoría"}`} />
         </button>
+      </div>
+    </Dialog>
+    < Dialog header="Editar categoría" visible={dialogEdit} onHide={() => setDialogEdit(false)}>
+      <div className=" flex gap-2 flew-wrap items-end m-4 w-full">
+        <div className="flex flex-col">
+          <p>Nombre</p>
+          <InputText
+            value={formik.values.nombre}
+            onChange={formik.handleChange}
+            name="nombre"
+          ></InputText>
+        </div>
+        <div className="flex flex-col ">
+          <p>Descripción</p>
+          <InputText
+            className="w-96"
+            value={formik.values.descripcion}
+            onChange={formik.handleChange}
+            name="descripcion"
+          ></InputText>
+        </div>
         <button
           className="bg-yellow-500 my-2 p-2 text-white rounded-lg disabled:bg-yellow-800"
           disabled={selectedNode == null}
@@ -170,6 +194,7 @@ export default function () {
                   detail: "Se ha editado la categoría",
                   life: 3000,
                 });
+                setDialogEdit(false);
                 setselectedNode(null);
               })
               .catch((err) => {
@@ -188,6 +213,49 @@ export default function () {
         >
           <SvgEditar />
         </button>
+      </div>
+    </Dialog>
+
+    <Toast ref={toast} />
+    <div>
+      <div className=" flex gap-2 items-end m-4">
+        {/*   <div className="flex flex-col">
+          <p>Nombre</p>
+          <InputText
+            value={formik.values.nombre}
+            onChange={formik.handleChange}
+            name="nombre"
+          ></InputText>
+        </div>
+        <div className="flex flex-col ">
+          <p>Descripción</p>
+          <InputText
+            className="w-96"
+            value={formik.values.descripcion}
+            onChange={formik.handleChange}
+            name="descripcion"
+          ></InputText>
+        </div>
+        */}
+        <button
+          className="bg-green-500 my-2 p-2 text-white rounded-lg "
+          onClick={() => {
+            setDialogCrear(true);
+          }}
+          type="submit"
+        >
+          <SvgNuevo mensaje={`${selectedNode?.data.id ? `Crear subcategoría de ${selectedNode?.data.nombre}` : "Crear categoría"}`} />
+        </button>
+        <button
+          className="bg-yellow-500 my-2 p-2 text-white rounded-lg "
+          onClick={() => {
+            setDialogEdit(true);
+          }}
+        >
+          <SvgEditar />
+
+        </button>
+
         <button
           className="bg-red-500 my-2 p-2 text-white rounded-lg disabled:bg-red-800"
           disabled={selectedNode == null || selectedNode.children != null}
@@ -272,4 +340,4 @@ export default function () {
       </TreeTable>
     </div >
   </>;
-}
+};;

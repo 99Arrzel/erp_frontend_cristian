@@ -97,8 +97,12 @@ function CrearComprobante() {
             life: 3000
           });
           //navigate a la pestaña de comprobantes
-          navigate(`/empresa/${id}/comprobantes`);
+          console.log(res, "body");
+          /* Await response */
+          console.log(error, "error");
+          //navegar a detalles del comprobante, en error.comprobante.id
           formik.resetForm();
+          navigate(`/empresa/${id}/comprobantes/detalle/${error.comprobante.id}`);
         } else {
           if (error.message) {
             toast.current?.show({

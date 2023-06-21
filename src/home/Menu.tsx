@@ -66,33 +66,46 @@ export default function Menu() {
       });
   }, []);
   const items = [
+
     {
-      label: 'Gestiones',
-      command: () => {
-        navigate(`/empresa/${id}/gestiones`);
-      }
-    },
-    {
-      label: 'Bienes',
+      label: 'Contabilidad',
+      /* Plan de cuentas, comprobantes y  reportes acá */
       items: [
         {
-          label: 'Articulos',
+
+          label: 'Plan de cuentas',
           command: () => {
-            navigate(`/empresa/${id}/articulos`);
+            navigate(`/empresa/${id}/plan_cuentas`);
           }
         },
         {
-          label: 'Categorias',
+          label: 'Comprobantes',
           command: () => {
-            navigate(`/empresa/${id}/categorias`);
+            navigate(`/empresa/${id}/comprobantes`);
           }
         },
-      ],
-
+        {
+          label: 'Reportes',
+          command: () => {
+            navigate(`/empresa/${id}/reportes`);
+          }
+        }
+      ]
     },
     {
-      label: 'Notas',
+      label: "Inventario",
       items: [{
+        label: 'Categorias',
+        command: () => {
+          navigate(`/empresa/${id}/categorias`);
+        }
+      }, {
+        label: 'Articulos',
+        command: () => {
+          navigate(`/empresa/${id}/articulos`);
+        }
+      },
+      {
         label: 'Nota de compra',
         command: () => {
           navigate(`/empresa/${id}/nota_compra`);
@@ -102,29 +115,10 @@ export default function Menu() {
         command: () => {
           navigate(`/empresa/${id}/nota_venta`);
         }
-      }]
+      }
+      ]
     },
     {
-
-      label: "Contabilidad",
-      items: [{
-
-        label: 'Plan de cuentas',
-        command: () => {
-          navigate(`/empresa/${id}/plan_cuentas`);
-        }
-      }, {
-        label: 'Comprobantes',
-        command: () => {
-          navigate(`/empresa/${id}/comprobantes`);
-        }
-      }, {
-        label: 'Reportes',
-        command: () => {
-          navigate(`/empresa/${id}/reportes`);
-        }
-      },]
-    }, {
       label: 'Configuración',
       items: [{
         label: 'Monedas',
@@ -137,7 +131,12 @@ export default function Menu() {
         command: () => {
           navigate(`/empresa/${id}/configuracion/integracion`);
         }
-      }]
+      }, {
+        label: 'Gestiones',
+        command: () => {
+          navigate(`/empresa/${id}/gestiones`);
+        }
+      },]
     }
 
   ];

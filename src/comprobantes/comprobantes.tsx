@@ -183,7 +183,7 @@ export default function () {
             navigate(`/empresa/${id}/comprobantes/detalle/${selectedComprobante?.id}`);
           }}
         ><SvgDetalles /></button>
-        <button className="bg-yellow-500 p-2 rounded-lg text-white disabled:bg-yellow-800"
+        {/* <button className="bg-yellow-500 p-2 rounded-lg text-white disabled:bg-yellow-800"
           disabled={selectedComprobante == null || selectedComprobante?.estado == "Anulado" || selectedComprobante?.estado == "Cerrado"}
           onClick={() => {
             anular(selectedComprobante.id);
@@ -200,7 +200,7 @@ export default function () {
           onClick={() => {
             verComprobante(selectedComprobante.id);
           }}
-        ><SvgReporte /></button>
+        ><SvgReporte /></button> */}
       </div>
       <DataTable value={empresa?.comprobantes} loading={empresa == null} emptyMessage="Sin comprobantes" selectionMode="single"
         metaKeySelection={false}

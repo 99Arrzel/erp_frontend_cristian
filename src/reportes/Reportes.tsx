@@ -8,6 +8,8 @@ import { InputSwitch } from "primereact/inputswitch";
 import { TabView, TabPanel } from 'primereact/tabview';
 import { SvgReporte, fetchMonedas, urlReporte } from "../home/Home";
 import { baseUrlReports } from "../main";
+import { GetCategorias } from "../categorias/categorias";
+import { InputText } from "primereact/inputtext";
 
 export default function Reportes() {
   const [empresa, setEmpresa] = useState<any>([]);
@@ -48,6 +50,21 @@ export default function Reportes() {
   const [todos_periodos_R_LM, setTodosPeriodosR_LM] = useState<boolean>(false); //Para la gestion seleccionada siempre
   const [selectedMonedaR_LM, setSelectedMonedaR_LM] = useState<any>(null); //Para la gestion seleccionada siempre
   const [activeIndex, setActiveIndex] = useState(0);
+
+
+  /* Categorias */
+
+  const [categorias, setCategorias] = useState<any>([]);
+  useEffect(() => {
+    GetCategorias({ id: Number(id_param) }).then((res) => {
+      console.log(res, "Categorias");
+      setCategorias(res);
+    });
+  }, []);
+
+  const [selectedCategoriaR_ES, setSelectedCategoriaR_ES] = useState<any>(null);
+  const [stock, setStock] = useState<any>("");
+
   return (
     <>
       <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
@@ -546,6 +563,58 @@ export default function Reportes() {
                       id_moneda: selectedMonedaR_ES?.id,
                       token: "Bearer " + localStorage.getItem("token") ?? ""
                     }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2FEstadoDeResultadosCR&standAlone=true`
+                  }), '_blank');
+                }
+              }
+            ><SvgReporte /></button>
+          </div>
+        </TabPanel>
+        <TabPanel header='Reporte de articulos bajo stock' prevButton={""} nextButton={""} closeIcon={""}>
+          <div className="bg-gray-200 rounded-lg p-2 flex gap-4 justify-evenly">
+            <div>
+              <h2 className="text-center text-2xl ">Reportes de articulos bajo stock</h2>
+              <div>
+                <p>Categoria</p>
+                <Dropdown
+                  value={selectedCategoriaR_ES}
+                  optionLabel="nombre"
+                  onChange={(e) => {
+                    setSelectedCategoriaR_ES(e.value);
+                  }}
+                  options={categorias}
+                />
+              </div>
+
+              <div>
+                <p>Stock</p>
+                <InputText
+                  value={stock}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setStock(value);
+                  }}
+
+                />
+
+              </div>
+
+            </div>
+
+            <button
+              className="bg-blue-500  text-white font-bold py-2 px-4 rounded disabled:bg-blue-800"
+              onClick={
+                () => {
+                  window.open(urlReporte({
+                    valores: {
+                      sessionDecorator: "no",
+                      chrome: "false",
+                      decorate: "no",
+                      toolbar: "false",
+                      j_username: 'jasperadmin', j_password: 'bitnami',
+                      id_categoria: selectedCategoriaR_ES?.id,
+                      stock: stock,
+                      token: "Bearer " + localStorage.getItem("token") ?? ""
+                    }, urlBase: `${baseUrlReports}/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2FZ&reportUnit=%2FZ%2FArticuloBajoStock&standAlone=true`
                   }), '_blank');
                 }
               }

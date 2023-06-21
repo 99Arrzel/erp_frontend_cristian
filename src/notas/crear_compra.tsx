@@ -8,7 +8,7 @@ import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from "primereact/inputnumber";
 import { Toast } from "primereact/toast";
 import { baseUrl } from "../main";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { SvgEditar, SvgEliminar, SvgNuevo } from "../home/Home";
 
 type Lotes = {
@@ -62,6 +62,7 @@ export default function CrearCompra() {
       formik.setFieldValue("num_nota", data.ultimo);
     });
   }, []);
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -108,10 +109,17 @@ export default function CrearCompra() {
           lotes,
           empresa_id: Number(id),
         } as NotaCompra),
-      }).then((res) => {
+      }).then(async (res) => {
         if (res.ok) {
           toast.current?.show({ severity: "success", summary: "Exito", detail: "Nota de compra creada correctamente", life: 3000 });
+          //respuesta
+          let res2 = await res.json();
+          console.log(res2, "Res2");
           formik.resetForm();
+          //res2.id
+          navigate(`/empresa/${id}/nota_compra/detalles/${res2.id}`);
+          //Rederigir a la nota de compra
+
         } else {
           throw res;
         }
@@ -290,9 +298,9 @@ export default function CrearCompra() {
                 )}</p>;
               }}
             ></Column>
-            <Column field="cantidad" header="Cantidad"></Column>
-            <Column field="precio" header="Precio"></Column>
-            <Column field="subtotal" header="Subtotal"></Column>
+            <Column align={"right"} field="cantidad" header="Cantidad"></Column>
+            <Column align={"right"} field="precio" header="Precio"></Column>
+            <Column align={"right"} field="subtotal" header="Subtotal"></Column>
             <Column body={acciones} header="Acciones"></Column>
           </DataTable>
         </div>
